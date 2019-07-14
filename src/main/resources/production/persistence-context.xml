@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+       	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!-- ============================================================= -->
+	<!--  Properties                                                   -->
+	<!-- ============================================================= -->
+	<bean id="appProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:db-config.xml</value>      <!-- 빌드 환경에 따른 설정값 -->
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="localOverride" value="true"/>
+    </bean>
+ 
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="kr.co.sunnyvale.sunny" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">#{appProperties['session.hibernate.dialect']}</prop>
+				<prop key="hibernate.show_sql">#{appProperties['session.hibernate.show_sql']}</prop>
+				<prop key="hibernate.format_sql">#{appProperties['session.hibernate.format_sql']}</prop>
+				<prop key="hibernate.hbm2ddl.auto">#{appProperties['session.hibernate.hbm2ddl.auto']}</prop>
+				<prop key="hibernate.generate_statistics">#{appProperties['session.hibernate.generate_statistics']}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">#{appProperties['session.hibernate.cache.use_second_level_cache']}</prop>
+				<prop key="hibernate.cache.use_query_cache">#{appProperties['session.hibernate.cache.use_query_cache']}</prop>
+				<prop key="hibernate.cache.provider_class">#{appProperties['session.hibernate.cache.provider_class']}</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	
+	<!-- ============================================================= -->
+	<!--  DataAccess                                                   -->
+	<!-- ============================================================= -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		p:driverClass="#{appProperties['session.db.driver']}" 
+		p:jdbcUrl="#{appProperties['session.db.url']}" 
+		p:user="#{appProperties['session.db.username']}" 
+		p:password="#{appProperties['session.db.password']}"
+		p:idleConnectionTestPeriod="14400"
+        p:initialPoolSize="50"
+        p:minPoolSize="50"
+        p:maxPoolSize="100"
+		p:maxIdleTime="25200"
+		destroy-method="close" />
+	
+					
+	<!-- ============================================================= -->
+	<!--  Transaction                                                  -->
+	<!-- ============================================================= -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" /> 
+			
+	<tx:annotation-driven />
+
+</beans>

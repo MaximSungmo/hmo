@@ -1,0 +1,25 @@
+<li id="notice_<%=id%>" class="notification notice <% if( read == false ){ %>unread<%}%>" >
+	<div class="noticefMainLink" onclick="javascript:window.location='/story/<%=id%>'; return false;" data-request-map='{"cid":"<%= id %>"}'>
+		<div class="z1 noticef_block">
+			<img class="_s0 _8o _8r l-ft _rw img" alt="" src="<%=userProfilePic%>">
+			<div class="_8u _42ef">
+				<div id="" class="info" style="max-width:<%=NotifyFlyout.notice.dimensions.itemMaxWidth%>px">
+					<%= snippetText %>
+					<div class="clearfix metadata">
+						<i class="_29h _29i img"></i>
+						<span class="timestamp _29j _30k fss fwn fcg">
+							<abbr class="timestamp livetimestamp" data-utime="" data-timestamp="<%=createDate%>" title=""></abbr>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--
+	<div class="noticef_x_div">
+		<a id="js_1" 
+		   class="noticef_x ui-close-button" 
+		    role="button" href=""></a>
+	</div>
+	-->
+</li>

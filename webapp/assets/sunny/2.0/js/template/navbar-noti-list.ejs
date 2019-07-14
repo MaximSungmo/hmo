@@ -1,0 +1,27 @@
+<li id="notification_<%=id%>" 
+	class="notification <% if( read == false ){ %>unread<%}%>" 
+	data-readness="0" 
+	data-notiftime="1371445540" 
+	data-gt="{&auot;alert_id&auot;:&auot;118532263&auot;,&auot;app_id&auot;:&auot;2361831622&auot;,&auot;unread&auot;:&auot;0&auot;,&auot;context_id&auot;:&auot;166718573385441&auot;,&auot;from_uids&auot;:{&auot;100001598294767&auot;:&auot;100001598294767&auot;},&auot;notif_type&auot;:&auot;group_activity&auot;}">
+	<div class="notifMainLink" href="<%=link%>" data-request-map='{"nid":"<%= id %>"}' onclick="NotifyFlyout.doRead( this ); return false;">
+		<div class="z1 notif_block">
+			<% if( activityType != 16 ){ %>
+				<img class="_s0 _8o _8r l-ft _rw img" alt="" src="<%=activatorProfilePic%>">
+			<% }else{ %>
+				<img src="/assets/sunny/2.0/img/hmo_noti_img.png" class="_s0 _8o _8r l-ft _rw img" alt="hellomyoffice_logo" >
+				
+			<% } %>
+			<div class="_8u _42ef">
+				<div id="notification_118532263_info" class="info" style="max-width:<%=NotifyFlyout.noti.dimensions.itemMaxWidth%>px">
+					<%= message %>
+					<div class="clearfix metadata">
+						<i class="_29h _29i img"></i>
+						<span class="timestamp _29j _30k fss fwn fcg">
+							<abbr class="timestamp livetimestamp" data-utime="" data-timestamp="<%=updateDate%>" title=""></abbr>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>

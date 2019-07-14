@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+    
+    <comment>이미지 설정</comment>
+	<entry key="cdn.fileAbsolutePath"></entry>
+	
+	<entry key="retouch.profileHugeWidth">1024</entry>
+	<entry key="retouch.profileHugeHeight">1024</entry>
+	<entry key="retouch.profileLargeWidth">150</entry>
+	<entry key="retouch.profileLargeHeight">150</entry>
+	<entry key="retouch.profileMiddleWidth">120</entry>
+	<entry key="retouch.profileMiddleHeight">120</entry>
+	<entry key="retouch.profileSmallWidth">100</entry>
+	<entry key="retouch.profileSmallHeight">100</entry>
+
+
+	<entry key="retouch.storyHugeWidth">1024</entry>
+	<entry key="retouch.storyHugeHeight">1024</entry>
+	<entry key="retouch.storyLargeWidth">480</entry>
+	<entry key="retouch.storyLargeHeight">480</entry>
+	<entry key="retouch.storyMiddleWidth">240</entry>
+	<entry key="retouch.storyMiddleHeight">240</entry>
+	<entry key="retouch.storySmallWidth">150</entry>
+	<entry key="retouch.storySmallHeight">150</entry>
+	
+	<entry key="retouch.originalPostFix">o</entry>
+	<entry key="retouch.hugePostFix">h</entry>
+	<entry key="retouch.largePostFix">l</entry>
+	<entry key="retouch.middlePostFix">m</entry>
+	<entry key="retouch.smallPostFix">s</entry>
+
+</properties>

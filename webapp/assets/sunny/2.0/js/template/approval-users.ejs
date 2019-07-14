@@ -1,0 +1,103 @@
+<div class="row-triple" style="height: 60px; margin-bottom:10px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+
+	<% if(smallGroup.type == 0){ %>
+		<a href="/user/<%= smallGroup.onlyMineUser.id %>" class="triple-first">
+			<img src="<%= smallGroup.onlyMineUser.profilePic %>" class="popup-profile-pic">
+		</a>
+		<div class="triple-second" >
+			<div class="triple-cell">
+				
+				<% if( type == 0 ){ %>
+					<% if( status == 0 ){ %>
+						보기 전
+					<% }else if( status == 1 ){ %>
+						승인중
+					<% }else if( status == 2 ){ %>
+						승인함
+					<% }else if( status == 3 ){ %>
+						반려
+					<% } %>
+				<% }else if( type > 0 && type < 3){ %>
+					<% if( status == 0 ){ %>
+					보기 전
+					<% }else if( status == 1 ){ %>
+						대기
+					<% }else if( status == 2 ){ %>
+						확인
+					<% }else if( status == 3 ){ %>
+						거절	
+					<% } %>
+				<% } %>
+				
+			</div>
+		</div>
+		<div class="triple-third">
+			<div class="triple-cell">
+				<div><a href="/user/<%= smallGroup.onlyMineUser.id %>"><%= smallGroup.onlyMineUser.name %></a>
+				(
+				<% if( type == 0 ){ %>
+					승인자
+				<%} else if( type == 1) { %>
+					협조처
+				<%} else if( type == 2) { %>
+					수신자
+				<%} else if( type == 3) { %>
+					회람
+				<% } %>
+				)
+				</div>
+				<div><%= smallGroup.onlyMineUser.jobTitle1 %></div>
+			</div>
+		</div>
+	<% }else if(smallGroup.type > 0){ %>
+		<div class="triple-first">
+			
+		</div>
+		<div class="triple-second" >
+			<div class="triple-cell">
+				
+				<% if( type == 0 ){ %>
+					<% if( status == 0 ){ %>
+						보기 전
+					<% }else if( status == 1 ){ %>
+						승인중
+					<% }else if( status == 2 ){ %>
+						승인함
+					<% }else if( status == 3 ){ %>
+						반려
+					<% } %>
+				<% }else if( type > 0 && type < 3){ %>
+					<% if( status == 0 ){ %>
+						보기 전
+					<% }else if( status == 1 ){ %>
+						대기
+					<% }else if( status == 2 ){ %>
+						확인
+					<% }else if( status == 3 ){ %>
+						거절	
+					<% } %>
+				<% } %>
+				
+			</div>
+		</div>
+		<div class="triple-third">
+			<div class="triple-cell">
+				<div><a href="/group/<%= smallGroup.id %>"><%= smallGroup.name %></a>
+				(
+					<% if( type == 0 ){ %>
+						승인자
+					<%} else if( type == 1) { %>
+						협조처
+					<%} else if( type == 2) { %>
+						수신자
+					<%} else if( type == 3) { %>
+						회람
+					<% } %>
+				)
+				</div>
+				<div><%= smallGroup.description %></div>
+			</div>
+		</div>
+	<% } %>
+	
+</div>

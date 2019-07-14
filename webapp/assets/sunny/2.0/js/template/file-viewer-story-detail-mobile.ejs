@@ -1,0 +1,71 @@
+			<div  class="detail-scroller ui-scrollable-area">
+				<div id="u-10-02" class="ui-scrollable-area-message">
+					<div>
+						<span class="story-message ui-stream-message" tabindex="0">
+							<span class="message-body-wrap">
+								<span class="user-content"><%=taggedTextPrev%> <%=taggedTextNext%></span>
+							</span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="viewer-bottom-wrap">
+				<ul class="viewer-bottom-items z1">
+					<li class="viewer-bottom-item item-actions">
+						<span class="ui-action-links-bottom react-icons-<%=id%>">
+							<span class="story-react viewer-story-react">
+								<a	href="/feel/okay"
+									role="radio"
+									class="feel-radio-react-del-<%=id %>"
+									data-ft-class="feel-radio-react-del-<%=id %>"
+									ajaxify="Story.onAjaxFeel"
+									aria-checked="<%if(feeledId == 1){%>true<%}else{%>false<%}%>"
+									aria-controls="feel-counter-<%=id %>"
+									rel="sync-get"
+									data-ft="<%=id %>"
+									data-request-map="{&quot;contentId&quot;:&quot;<%=id %>&quot;,&quot;feelId&quot;:&quot;1&quot;}">
+									<span class="react-icon emo-grin <%if(feeledId == 1){%>reacted<%}%>"></span>
+								좋아요 <span class="react-icon <%if(feeledId == 1){%>reacted<%}%>">취소</span></a>
+							</span>
+							<span class="story-stream-dott viewer-story-stream-dott"> · </span>
+							<a	class="h-icon"
+								href="#"
+								role="dialog"
+								aria-control="dialog-bookmark"
+								data-title="스크랩"
+								data-custom-nm="등록"
+								data-custom-fn="DialogBookmark.onRegisterClicked"
+								data-cid="<%= id %>">
+								<i class="story-stream-bookmark-icon"></i>
+								<span class="menu-text story-stream-bookmark-text viewer-story-stream-bookmark-text">스크랩</span>
+							</a>
+						</span>
+					</li>
+					<li class="viewer-bottom-item reaction-summary">
+						<div class="viewer-feedback-actions">
+							<span> 
+								<a	class="pop-feeled-users feel-counter-1484"
+									rel="sync-get"
+									data-request-map="{&quot;contentId&quot;:1484,&quot;feelId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+									data-count="1">
+									<i class="fa fa-heart fa-1g"></i>
+									<span class="count-text">평가 1명</span>
+								</a>
+							</span>
+						</div>
+						<div class="viewer-feedback-actions">
+							<span> 
+								<a	rel="async-get"
+									ajaxify="ajax_more_reply"
+									ajaxify-before="before_ajax_more_reply"
+									data-reply-count="2"
+									data-request-map="{ &quot;top&quot;:true, &quot;contentId&quot;:1484,&quot;replyId&quot;:1489,&quot;size&quot;:10 }">
+									<i class="fa fa-comment fa-1g"></i>
+									<i class="fa fa-spin fa-1g fa-spinner" style="display:none"></i>
+									<span>댓글 2명</span>
+								</a>
+							</span>
+						</div>
+					</li>
+				</ul>				
+			</div>

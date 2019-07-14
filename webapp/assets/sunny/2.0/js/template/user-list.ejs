@@ -1,0 +1,163 @@
+
+			<!-- BEGIN:page-content -->		
+					<div class="rw-content-area rw-content-fs">	
+						<div class="rw-pagelet-blank"></div>
+						<div class="rw-pagelet-wrap rw-mtl">
+							<div class="input-group">
+								<input type="text" id="userNameText" value="<%=(typeof userName == 'undefined')?'':userName%>" class="form-control search-query userNameText" placeholder="검색할 이름을 입력하여 주세요.">
+									<span class="input-group-btn">
+										<button id="userNameSearch" type="button" class="btn btn-purple btn-sm">
+																										검색
+										<i class="icon-search icon-on-right bigger-110"></i>
+										</button>
+									</span>
+							</div>
+						</div>
+
+						<div class="rw-pagelet-wrap rw-mtl">
+							<table id="a-table-user-list" class="table table-striped table-bordered table-hover rw-tbl-cell-vertical">
+								<thead>
+									<tr>
+										<th class="hidden-767 center">사진</th>
+										<th>이름</th>
+										<th>직책</th>
+										<th>부서</th>
+										<th>구성원 여부</th>
+									</tr>
+								</thead>
+								<tbody>
+								<% for(i = 0; i < userPage.contents.length; i++){ 
+									user = userPage.contents[i];
+								 %>
+										<tr>
+											<td class="hidden-767">
+												<a class="rw-profilebox-block" href="#">
+													<img src="/assets/sunny/2.0/img/default-profile-80x80.png" alt="">
+												</a>
+											</td>
+											<td>
+												<%=userPage.contents[i].name%><br />
+											</td>
+											<td>
+												<% if(user.jobTitle1){%>
+												<%=user.jobTitle1%><br />
+												<%}%>
+												<% if(user.jobTitle2){%>
+												<%=user.jobTitle2%><br />
+												<%}%>
+												<% if(user.jobTitle3){%>
+												<%=user.jobTitle3%><br />
+												<%}%>												
+											</td>
+											<td>
+												
+												<% 
+												userFlag = false;
+												
+												if(user.smallGroups != null){
+													//alert( user.smallGroups);
+													for(k = 0; k < user.smallGroups.length; k++){
+														if(user.smallGroups[k].id == smallGroup.id){
+															userFlag = true;
+														}
+														if(user.smallGroups[k] != null && user.smallGroups[k].name != '' && user.smallGroups[k].name != null){
+													 %>
+														<%=user.smallGroups[k].name%><br>
+													<%
+														}
+														} 
+													
+													}	
+												%>
+											
+	
+											</td>
+											<td>
+														<label class="pull-center inline">
+															<input data-user-name="<%=user.name%>" data-user-id="<%=user.id%>" data-smallGroup-id="<%=smallGroup.id%>" data-type="<%=userFlag%>" <% if(userFlag == true) {%> checked='checked' <%}%> type="checkbox" class="ace ace-switch ace-switch-5 addUserToggle">
+															<span class="lbl"></span>
+														</label>
+											</td>
+										</tr>
+								<% } %>
+								</tbody>
+							</table>
+
+							<div class="row-fluid">
+								<div class="span6 rw-a-user-list-buttons">
+								</div>	
+								<div class="span6">
+									<div class="pagination" id="a-table-user-list-pagination">
+										<ul>
+											<%
+												if( userPage.pageNumber % 10 > 1 ){
+											%>
+													<li>
+														<a  href="#" class='numberPageLink' data-page-id="<%=userPage.pageNumber - 1%>"><i class="icon-double-angle-left"></i></a>
+													</li>											
+											<%	
+												}else{
+											%>
+													<li class="disabled">
+														<a href="#"><i class="icon-double-angle-left"></i></a>
+													</li>											
+											<%
+												}
+											%>
+
+											<%
+												for(i = userPage.startPageNum; i <= userPage.endPageNum; i++){
+											%>
+												<li class="<%=(i == userPage.pageNumber ? 'active' : '')%>">
+													<a href="#" class='numberPageLink' data-page-id="<%=i%>"><%=i%></a>
+												</li>											
+											<%
+												}
+											%>
+											
+											<% if(userPage.endPageNum < userPage.lastPageNum){
+											%>
+												<li>
+													<a href="#" class='numberPageLink' data-page-id="<%=userPage.lastPageNum%>"><%=userPage.lastPageNum%></a>
+												</li>											
+											<%
+												}
+											%>
+	
+											<%
+												if( userPage.lastPageNum > userPage.pageNumber ){
+											%>
+													<li>
+														<a href="#" class='numberPageLink' data-page-id="<%=userPage.pageNumber + 1%>">
+															<i class="icon-double-angle-right"></i>
+														</a>
+													</li>											
+											<%
+												}else{
+											%>
+													<li class="disabled">
+														<a href="#"><i class="icon-double-angle-right"></i></a>
+													</li>											
+											<%
+												}
+											%>
+										</ul>
+
+									
+										<ul>
+
+
+											
+
+										</ul>
+									</div>
+
+								</div>	
+
+							</div>
+
+						</div>
+
+					</div>
+
+			<!-- END:page-content -->	

@@ -1,0 +1,60 @@
+<%
+/*
+var d = new Date(info.createDate);
+var currentFormatTime = moment(d).format('a h:mm');
+*/
+%>
+
+<div id="message-<%=info.id%>" class="itemdiv dialogdiv message-list-each <%if(info.sender != null && info.sender.id == __a__.id){%>fromMe<% } %>" data-id="<%=info.id%>">
+	<% if( info.type == 0 ) { %> 
+		<div class="user">
+			<img src="<%=info.sender.profilePic%>" />
+		</div>
+		<div class="body">
+			
+			<div class="time">
+				<i class="icon-time"></i>
+				<span class="green">
+					<abbr class="timestamp livetimestamp" data-hover="tooltip" data-timestamp="<%=info.createDate%>" data-tooltip-alignh="left" aria-label="">&nbsp;</abbr>
+					<span class="btn-mini btn-yellow message-list-count"><%=info.unreadCount %></span>
+				</span>
+			</div>
+				
+			<div class="name">
+				<a href="/home/<%=info.sender.id%>"><%=info.sender.name%></a>
+			</div>
+			<div class="text">
+				<%=info.text %>
+			</div>
+			
+		</div>
+	<% } else if( info.type == 1 ){ %>
+		<div class="body">
+			<div class="time">
+				<span class="green">
+					<abbr class="timestamp livetimestamp" data-hover="tooltip" data-timestamp="<%=info.createDate%>" data-tooltip-alignh="left" aria-label="">&nbsp;</abbr>
+				</span>
+			</div>
+			<div class="text">
+				<strong>
+					<a class="message-list-user" href="/home/<%=info.subjectUser.basecampName%>"><%=info.subjectUser.name%></a>
+				</strong>이
+				<strong>
+					<a class="message-list-user" href="/home/<%=info.objectUser.basecampName%>"><%=info.objectUser.name%></a>
+				</strong>을 추가했습니다.
+			</div>
+		</div>
+	<% }else if( info.type == 2 ){ %>
+	<div class="body">
+		<div class="time">
+			<span class="green">
+			<abbr class="timestamp livetimestamp" data-hover="tooltip" data-timestamp="<%=info.createDate%>" data-tooltip-alignh="left" aria-label="">&nbsp;</abbr></span>
+		</div>
+		<div class="text">
+			<strong>
+				<a class="message-list-user" href="/home/<%=info.subjectUser.basecampName%>"><%=info.subjectUser.name%></a>
+			</strong>이 퇴장했습니다.
+		</div>
+	</div>
+	<% } %>
+</div>

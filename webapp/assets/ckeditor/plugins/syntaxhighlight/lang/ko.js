@@ -1,0 +1,21 @@
+﻿CKEDITOR.plugins.setLang( 'syntaxhighlight', 'ko', {
+	title:'코드 스니펫 추가 혹은 삭제',
+	contextTitle:'소스코드 에디터',
+	sourceTab:'소스코드',
+	langLbl:'언어를 선택해주세요',
+	sourceTextareaEmptyError:'소스코드를 넣어주세요.',
+	advancedTab:'고급설정',
+	hideGutter:'좌측 선 숨기기',
+	hideGutterLbl:'좌측 선과 라인 숫자 숨기기.',
+	hideControls:'컨트롤들 숨기기',
+	hideControlsLbl:'코드블록 위에 있는 컨트롤 숨기기',
+	collapse:'Collapse',
+	collapseLbl:'Collapse the code block by default. (controls need to be turned on)',
+	showColumns:'Show columns',
+	showColumnsLbl:'Show row columns in the first line.',
+	lineWrap:'Disable line wrapping',
+	lineWrapLbl:'Switch off line wrapping.',
+	lineCount:'Default line count',
+	highlight:'Highlight lines',
+	highlightLbl:'Enter a comma seperated lines of lines you want to highlight, eg <em style="font-style:italic">3,10,15</em>.'
+});

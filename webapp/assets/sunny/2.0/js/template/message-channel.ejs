@@ -1,0 +1,90 @@
+				<li class="_z6m">
+					<table class="ui-grid _k3x" cellspacing="0" cellpadding="0">
+						<tbody>
+							<tr data-channel-id="<%=id %>">
+								<td class="v-top _z6o channel-col" onclick="Channel.onChannelRowClicked(this);">
+									<div>
+										<% if( type == 0 ) { %>
+											<div class="user-pic-wrap onetoone" style="width:60px; height:60px;">
+												<div class="user-pic">
+													<% 
+														var count = tmpJoinedUsers.length;
+														for( var i = 0; i < count; i++ ) {
+															var joinUser = tmpJoinedUsers[ i ];
+													%>	
+														<img src="<%=joinUser.profilePic %>" style="width:100%; height:100%;">
+													<%
+														}
+													%>	
+												</div>
+											</div>
+										<% } else if( type == 1 ){ %>
+											<div class="user-pic-wrap group group-<%=(userCount > 3) ? '3' : userCount - 1 %>" style="width:60px; height:60px;">
+												<% 
+													var count = tmpJoinedUsers.length;
+													for( var i = 0; i < count; i++ ) {
+														var joinUser = tmpJoinedUsers[ i ];
+														if( i < 3 ) {
+												%>	
+														<div class="user-pic user-pic-<%=i %>">
+															<img src="<%=joinUser.profilePic %>" style="margin: 0 auto;">
+														</div>
+												<%
+														}
+													}
+												%>				
+											</div>
+										<% } %>								
+									</div>
+								</td>
+								<td class="v-top _z6p channel-col" onclick="Channel.onChannelRowClicked(this);">
+									<div class="_el2 fwn fcg">
+										<span class="_sl1">
+											<%
+												var
+												maxUserCount = __mobile__[ "is" ] ? 3 : 4,
+												count = tmpJoinedUsers.length;
+												loopCount = ( count >= maxUserCount ) ? maxUserCount : count;
+												for( var i = 1; i <= loopCount; i++ ) {
+													var joinUser = tmpJoinedUsers[ i - 1 ];
+											%>
+												<%=joinUser.name%><%= (i < loopCount) ? ',' : '' %>
+											<%
+												}
+											%>	
+											<%
+												if( type == 0 ) {
+											%>
+											<%
+												} else if( type == 1 ) { 
+											%>		
+												<%= (userCount > maxUserCount ) ? '+'+(userCount - maxUserCount) : ''%>
+											<%
+												}
+											%>			
+										</span>
+										<abbr data-timestamp="<%=updateDate %>" class="_el0 timestamp livetimestamp"  data-hover="tooltip" data-tooltip-alignh="left" aria-label=""></abbr>
+									</div>
+									<div class="_el2 fwn fcg fsm">
+										<span>
+											<%=lastUserName %>: <%=lastEscapeHTMLSnippet %>
+										</span>
+									</div>
+								</td>
+								<td class="v-middle _z6q">
+									<div class="_41a2 stat_elem">
+										<a	href="${sunny.path}/channel/leave"
+											role="dialog"
+											data-style="messagebox-yesno"
+											data-title="대화방 나가기"
+											data-message="대화방을 나가면 상대방에게 메시지가 전달되며, 앞으로 대화방의 알림을 받을 수 없습니다.<br>나가시겠습니까?"
+											ajaxify-dialog-yes="Channel.onAjaxExitChannel" 
+											rel="sync-get"
+											data-request-map="{&quot;id&quot;:&quot;<%=id %>&quot;}"										
+											class="hmo-button hmo-button-white hmo-button-small-9 btn-leave-channel">나가기</a>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</li>

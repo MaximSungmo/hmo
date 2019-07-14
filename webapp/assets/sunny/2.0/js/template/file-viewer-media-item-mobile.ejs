@@ -1,0 +1,30 @@
+<%
+	var mediaCount =  mediaes ? mediaes.length : 0;
+	if( mediaCount > 0 ) {
+		for( var i = 0; i < mediaCount; i++ ) {
+			var media = mediaes[ i ];
+%>
+<div class="stage pre-stage" style="display:table-cell; vertical-align:middle; " id="media-<%=media.id%>">
+	<% if( media.mediaType != 2 ) { %>
+		<div class="spotlight file-stage">
+			<div class="file-spot">
+				<div class="spot-image">
+					<div class="file-desc">
+						<span class="file-desc-item" id="file-stage-name-<%=media.id%>"></span>
+						<span class="file-desc-item _l" id="file-stage-size-<%=media.id%>"></span>																			
+					</div>
+				</div>
+			</div>
+		</div>
+	<% } else if(media.mediaType == 2) { %>
+		<div class="spotlight photo-stage">
+			<div style="display:table-cell; vertical-align:middle">
+				<img id="photo-stage-<%=media.id%>" src="/assets/sunny/2.0/img/media-dnload.png">
+			</div>
+		</div>
+	<% } %>  	
+</div>
+<%
+		}
+	}
+%>	

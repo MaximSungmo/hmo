@@ -1,0 +1,63 @@
+@charset "utf-8";
+
+.rw-signup-wizard-content .page-content {
+border-bottom:none;
+}
+
+.rw-form-buttons {
+clear: both;
+padding: 0px 8px;
+}
+
+.rw-fieldset-main-title {
+	clear: both;
+	font-weight: bold;
+	font-size: 16px;
+	margin: 25px 0 5px 0;
+	line-height: 20px;
+}
+
+.manager-form {
+	padding:40px 0;
+}
+
+.step-left-col-img {
+	text-align:center; 
+	margin-top:65px;
+}
+
+.rw-step-content {
+	text-align:center; margin-top:25px;
+}
+
+
+
+@media (min-width: 979px)	{
+	.step-left-col h3 {
+		padding:0 20px;
+	}
+}
+
+
+@media (min-width: 1200px)	{
+	.widget-main-wrap {
+	padding:12px 70px;
+	}
+
+}
+
+@media (max-width: 767px)							{	
+	.step-left-col-img { display:none; }
+	.rw-step-content { display:none; }
+	.mobile-hiede-text { display:none; }
+	.rw-step-title h3 {line-height: 18px; padding:0;}
+	.login-02-rw-step-title h3 { margin-bottom:10px; line-height:18px; }
+	.manager-form { padding:0; }
+	.rw-fieldset-main-title { line-height:6px; }
+}
+
+
+
+
+
+

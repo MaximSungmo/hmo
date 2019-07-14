@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties version="1.0">
+    
+    <comment>애플리케이션 로컬 설정</comment>
+    
+    
+    <!-- Domain config -->
+     <entry key="session.db.driver">com.mysql.jdbc.Driver</entry>
+    <entry key="session.db.url">jdbc:mysql://localhost/hmo</entry>
+    <entry key="session.db.username">hmo</entry>
+    <entry key="session.db.password">hmo</entry>
+
+    	<!-- dataSource config -->
+	<entry key="session.hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</entry>
+	<entry key="session.hibernate.show_sql">false</entry>
+	<entry key="session.hibernate.format_sql">true</entry>
+	<entry key="session.hibernate.hbm2ddl.auto">update</entry>
+	<entry key="session.hibernate.generate_statistics">true</entry>
+	<entry key="session.hibernate.cache.use_second_level_cache">true</entry>
+	<entry key="session.hibernate.cache.use_query_cache">true</entry>
+	<entry key="session.hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</entry>
+
+  
+  
+</properties>

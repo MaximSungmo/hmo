@@ -1,0 +1,31 @@
+<div class="timeline-item item-body item-message">
+	<h5 class="rw-ui-stream-message">
+		<span class="rw-message-body">
+			<%if(taggedTextNext != null) { %>
+				<div class="rw-message-body-wrap" id="message-exposed-<%=id %>">
+					<span class="user-content">
+						<%=taggedTextPrev%>
+						<span class="text-exposed-hide">...</span>
+						<span class="text-exposed-show">
+							<%=taggedTextNext%>
+								<br>
+								<br>
+						</span>
+						<span class="text-exposed-hide">
+							<span class="text-exposed-link">
+								<a href="#" onclick="css_add_class($(&quot;#message-exposed-<%=id %>&quot;), &quot;text-exposed&quot;); return false;">더보기 </a>
+							</span>
+						</span>
+					</span>
+				</div>
+			<%}else{%>		
+				<span class="rw-message-body-wrap" id="message-exposed-<%=id %>">
+					<span class="user-content">
+						<%=taggedTextPrev%>
+						<%=taggedTextNext%>
+					</span>
+				</span>
+			<%}%>		
+		</span>
+	</h5>
+</div>														

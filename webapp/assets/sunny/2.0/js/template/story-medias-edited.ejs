@@ -1,0 +1,152 @@
+<%
+	var
+	mediaCount = mediaes.length;
+%>
+
+<table class="ui-grid _51mx media-stage">
+	<tbody>
+	<%
+		if( type == 1 && mediaCount > 0 ) {
+			for( var i = 0; i < mediaCount; i++ ) {
+				var media = mediaes[ i ];
+				if( media.mediaType != 2 && __mobile__["is"]) {
+	%>
+					<tr class="_51mx">
+						<td class="v-mid h-cent stage-container f-container">
+							<div class="stage-container-inner" >
+								<div class="stage-wrapper">
+									<div class="f-stage-wrap">
+										<div class="f-stage">
+											<div class="f-stage-image">
+												<div class="file-desc-item">
+													<%=media.fileName %>
+												</div>
+												<div class="file-desc-item _l">
+													<%=media.formatSize%>
+												</div> 
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class="_51mx">
+						<td class="menu-contaoner" >
+							<div class="menu-footerline-wrap">
+								<div class="z1 menu-footerline-menus menu-navi">
+									<a	class="mf-hl-m-item _l"
+										href="/download/<%=media.id%>/<%=media.fileName %>"
+										id="cv-counter-reader">
+										<i class="fa fa-download fa-1g"></i>
+										<span>다운로드</span>
+									</a>
+								</div>
+							</div>
+						</td>
+					</tr>																
+	<%
+				} else if( media.mediaType == 2 ) { 				
+	%>			
+					<tr class="_51mx">
+						<td class="v-mid h-cent stage-container">
+							<div class="stage-container-inner">
+							<%
+								if( !__mobile__["is"] ) {
+							%>
+									<a	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;"
+										href="/story/<%=id %>?pid=<%=media.id %>&cnt=<%=mediaCount %>&idx=<%=i%>&mode=theater"
+										class="image-view-lager"
+										rel="sync-get"
+										data-request-map="{}">
+										<i class="fa fa-search-plus fa-1g"></i></a>
+							<%
+								}
+							%>
+								<div class="stage-wrapper">
+									<div class="image-stage">
+										<a	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;"
+											href="/story/<%=id %>?pid=<%=media.id %>&cnt=<%=mediaCount %>&idx=<%=i%>&mode=theater"
+											class="ui-photo-thumb" 
+											rel="sync-get"
+											data-request-map="{}">
+											<img class="photo-image img" data-src="<%=media.hugePath %>" style="display:none">
+										</a>	 
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+	<%
+					if( __mobile__["is"] ) {
+	%>
+						<tr class="_51mx">
+							<td class="menu-contaoner" >
+								<div class="menu-footerline-wrap">
+									<div class="z1 menu-footerline-menus menu-navi">
+										<a	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;"
+											href="/story/<%=id %>?pid=<%=media.id %>&cnt=<%=mediaCount %>&idx=<%=i%>&mode=theater"
+											class="mf-hl-m-item _l"
+											rel="sync-get"
+											data-request-map="{}"
+											id="cv-counter-reader">
+											<i class="fa fa-search-plus bigger-130"></i>
+											<span>크게보기</span>
+										</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+	<%
+					}
+				}
+			}
+		}
+	%>
+	</tbody>
+</table>
+<%
+	if( !__mobile__["is"] && type == 1 && mediaCount > 0 ) { 
+%>
+	<table class="ui-grid _51mx media-stage">
+		<tbody>
+			<%
+				for( var i = 0; i < mediaCount; i++ ) {
+					var media = mediaes[ i ];
+					if( media.mediaType != 1 ) {
+						continue;
+					}
+			%>	
+				<tr class="_51mx">
+					<td class="v-mid h-cent stage-container file">
+						<div class="stage-container-inner">
+							<a	data-hover="tooltip"
+								aria-label="다운로드"
+								class="image-view-lager"
+								href="/download/<%=media.id%>/<%=media.fileName %>">
+								<i class="fa fa-download fa-1g"></i>
+							</a>
+							<div class="stage-wrapper">
+								<div class="f-stage" style="top:55px">
+									<a href="/download/<%=media.id%>/<%=media.fileName %>">
+										<img class="file-image img" src="/assets/sunny/2.0/img/file-icon.png">
+									</a>	
+									<div class="file-desc-item">
+										<%=media.fileName %>
+									</div>
+									<div class="file-desc-item _l">
+										<%=media.formatSize %>
+									</div> 
+								</div>
+							</div>
+						</div>	
+					</td>
+				</tr>												
+			<%
+				}
+			%>		
+		</tbody>
+	</table>
+<%
+	}
+%>	

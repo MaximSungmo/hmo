@@ -1,0 +1,36 @@
+	<div>
+		<div class="d-fuc-l-i">
+		<%
+			var count = data.length;
+			for( var i = 0; i < count; i++ ) {
+				var d = data[ i ];
+		%>
+				<div class="item">
+					<div class="item-inner">
+						<% if(d.type == 1){ %>
+							<div>전체공개</div>
+						<% } else if( d.type == 2 ){ %>
+							<div>친구공개</div>
+						<% } else if( d.type == 0 ){ %>
+							<div class="item-c-col-l">
+								<a class="a-prof-pic" href="/user/<%=d.onlyMineUser.id %>">
+									<img class="img i-prof-pic" alt="" aria-label="<%=d.onlyMineUser.name %>" src="<%=d.onlyMineUser.profilePic %>">
+								</a>
+								<div class="item-c-col">
+									<a href="/user/<%=d.onlyMineUser.id %>"><h3 class="n-prof"><%=d.onlyMineUser.name %></h3></a>
+									<div><span><%=d.onlyMineUser.jobTitle1 %></span></div>
+								</div>
+							</div>						
+						<% } else if( d.type > 0  ){ %>
+							<div>
+								<a href="/group/<%= id %>"><%=d.name %><br>
+								<%=d.description %>
+							</div>
+						<% } %>	
+					</div>
+				</div>
+		<%
+			}
+		%>
+		</div>
+	</div>

@@ -1,0 +1,33 @@
+	<div>
+		<div class="d-fuc-l-i">
+		<%
+			var count = data.length;
+			for( var i = 0; i < count; i++ ) {
+				var
+				d = data[ i ],
+				user = d.user;
+				feel = d.feel;
+		%>
+				<div class="item">
+					<div class="item-inner">
+						<div class="item-c-col-l">
+							<a class="a-prof-pic" href="/user/<%= user.id %>">
+								<img class="img i-prof-pic" alt="" aria-label="<%= user.name %>" src="<%= user.profilePic %>">
+							</a>
+							<div class="item-c-col">
+								<a href="/user/<%= user.id %>"><h3 class="n-prof"><%= user.name %></h3></a>
+								<div><span><%= user.jobTitle1 %></span></div>
+							</div>
+						</div>
+						<div class="item-c-col-r">
+							<span class="story-react">
+								<strong class="react-text"><%= feel.nameKr %></strong>
+							</span>
+						</div>									
+					</div>
+				</div>
+		<%
+			}
+		%>
+		</div>
+	</div>

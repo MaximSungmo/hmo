@@ -1,0 +1,72 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<table class="table table-striped ">
+	
+	<c:choose>
+		<c:when test="${pagedResult.totalCountOfElements > 0}">
+			<c:forEach items="${pagedResult.contents}" var="content"
+				varStatus="status">
+				<tr>
+					<td>${content.name }</td>
+					<c:choose>
+						<c:when test="${isUser }">
+							<td><button class="btn btn-small hmo-button-khaki" data-map='{"id":"${content.mySmallGroup.id }", "type":"${content.mySmallGroup.type }" ,"name":"${content.name }"}' onclick="return add_user_and_group(this);">추가</button>
+						</c:when>
+						<c:otherwise>
+							<td><button class="btn btn-small hmo-button-khaki" data-map='{"id":"${content.id }", "type":"${content.type }" ,"name":"${content.name }"}' onclick="return add_user_and_group(this);">추가</button>
+						</c:otherwise>
+					</c:choose>
+				</tr>
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<tr>
+				<td colspan="100%">
+					해당 데이터가 존재하지 않습니다.
+				</td>
+			</tr>
+		</c:otherwise>
+	</c:choose>
+</table>
+
+
+<c:if test="${pagedResult.totalCountOfElements > 0}">
+	<div class="pagination center">
+		<ul>
+			<c:choose>
+				<c:when test="${pagedResult.pageNumber % 10 > 1 }">
+					<li><a class="userAndGroup-more-detail" data-name="page" data-value="${pagedResult.pageNumber - 1 }" href="?page=${pagedResult.pageNumber - 1 }"><i
+							class="fa fa-arrow-left"></i></a></li>
+				</c:when>
+				<c:otherwise>
+					<li class="disabled"><a href="#"><i
+							class="fa fa-arrow-left"></i></a></li>
+				</c:otherwise>
+			</c:choose>
+			<c:forEach var="pageIndex" begin="${pagedResult.startPageNum }"
+				end="${pagedResult.endPageNum }">
+				<li class="${pageIndex == pagedResult.pageNumber ? 'active' : '' }">
+					<a class="userAndGroup-more-detail" data-name="page" data-value="${pageIndex }" href="?page=${pageIndex }"><c:out value="${pageIndex }" /></a>
+				</li>
+			</c:forEach>
+	
+			<c:if test="${pagedResult.endPageNum < pagedResult.lastPageNum }">
+				<li><a class="userAndGroup-more-detail" data-name="page" data-value="${pagedResult.lastPageNum}" href="?page=${pagedResult.lastPageNum }">${ pagedResult.lastPageNum}</a>
+				</li>
+			</c:if>
+	
+			<c:choose>
+				<c:when test="${pagedResult.lastPageNum  > pagedResult.pageNumber }">
+					<li><a class="userAndGroup-more-detail" data-name="page" data-value="${ pagedResult.pageNumber + 1 }"  href="?page=${ pagedResult.pageNumber + 1 }"> <i
+							class="fa fa-arrow-right"></i>
+					</a></li>
+				</c:when>
+				<c:otherwise>
+					<li class="disabled"><a href="#"><i
+							class="fa fa-arrow-right"></i></a></li>
+				</c:otherwise>
+			</c:choose>
+		</ul>
+	</div>
+</c:if>

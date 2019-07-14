@@ -1,0 +1,39 @@
+<li class="top-f-request">
+	<div class="z1 has-follow-up _29m">
+		<a  class="noti-user-profile" href="/home/<%= follower.basecampName %> ">
+			<img class="img" alt="" src="<%= follower.profilePic %>">
+		</a>
+		<div id="" class="request-status _29k">
+			<div class="z1">
+				<div class="r-ft">
+					<div class="ta-right">
+						<div class="actions" style="margin-top:3px">
+							
+							<label class="requestsi-left-button" for="u_b_p">
+								<input id="u_b_p"
+									class="hmo-button-white hmo-button hmo-button-small-3"
+									type="submit" 
+									data-request-map='{"userId":"<%=follower.id%>"}'
+									onclick="return on_request_hide(this);"
+									title="이 요청을 숨깁니다. (보낸이는 알 수 없습니다.)" 
+									name="actions[hide]" 
+									value="나중에 하기">
+							</label>
+							<label class="requestsi-right-button" for="u_b_o">
+								<input class="hmo-button-small-3 hmo-button hmo-button-blue" id="u_b_o" type="submit" data-request-map='{"userId":"<%=follower.id%>", "requestType":"2"}' onclick="return on_friend_add(this)" value="확인">	
+							</label>
+						</div>
+					</div> 
+				</div>
+				<div class="in-blk request-status-block" aria-hidden="true">
+					<div class="in-blk vam" style="height:40px"></div>
+					<div class="in-blk vam">
+						<div>
+							<span class="title fsl fwb fcb"><a href="/home/<%= follower.basecampName %>"><%= follower.name %></a></span>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+</li>

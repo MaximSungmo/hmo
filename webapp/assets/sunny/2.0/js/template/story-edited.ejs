@@ -1,0 +1,688 @@
+						<div class="timeline-item item-body item-message">
+							<h5 class="rw-ui-stream-message">
+								<span class="rw-message-body">
+									<%if(taggedTextNext != null) { %>
+										<div class="rw-message-body-wrap" id="message-exposed-<%=id %>">
+											<span class="user-content">
+												<%=taggedTextPrev%>
+												<span class="text-exposed-hide">...</span>
+												<span class="text-exposed-show">
+													<%=taggedTextNext%>
+													<br>
+													<br>
+												</span>
+												<span class="text-exposed-hide">
+													<span class="text-exposed-link">
+														<a href="#" onclick="css_add_class($(&quot;#message-exposed-<%=id %>&quot;), &quot;text-exposed&quot;); return false;">더보기 </a>
+													</span>
+												</span>
+											</span>
+										</div>
+									<%}else{%>		
+										<span class="rw-message-body-wrap" id="message-exposed-<%=id %>">
+											<span class="user-content">
+												<%=taggedTextPrev%>
+												<%=taggedTextNext%>
+											</span>
+										</span>
+									<%}%>		
+								</span>
+							</h5>
+						</div>
+						
+						<%
+							 var mediaCount =  mediaes ? mediaes.length : 0;
+							if( mediaCount > 0 ) {
+						%>
+						
+							<div class="timeline-item item-body attachments-container">
+								<div>
+								
+									<%if( mediaCount == 1 ){%>
+									
+										<%
+											if(mediaes[0].mediaType != 2) {
+												var media = mediaes[0];
+										%>
+											<div class="ui-stream-attachments">
+												<div class="z1 attachments-redesign">
+													<div class="file-redesign-aspect">
+														<div class="file-wrap">
+															<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																<span class="file-type-image">
+																	<img src="/assets/sunny/2.0/img/file-icon.png">
+																</span>
+															</a>
+															<div class="file-desc">
+																<div class="file-desc-item">
+																	<a href="/download/<%=media.id%>/<%=media.fileName%>" >
+																		<%=media.fileName %>
+																	</a>
+																</div>
+																<div class="file-desc-item _l">
+																	<%=Stream.formatFileSize( media.size )%>
+																</div>																			
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>										
+										<% 
+											} else if(mediaes[0].mediaType == 2) {
+												var photo = mediaes[0];
+												var photoFitHeight = photo.height*350/photo.width;
+										%>											
+											<div class="ui-stream-attachments _photo_1">
+												<div class="z1 attachments-redesign">
+													<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=0&mode=theater" 
+														class="ui-photo-thumb photo-redesign-aspect" 
+														data-request-map="{}"
+														rel="sync-get"
+														onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+														<img src="<%=photo.hugePath %>" 
+															 class="img <%if( photo.width >= photo.height && photo.width > 489 ){ %>_w489<%}%> <%if( photo.height > photo.width && photoFitHeight > 320){%>_h489<%}%>"
+															 <%if( photo.height > photo.width && photoFitHeight > 320 ){%>style="top:<%=(-1*( photoFitHeight - 320 )/2 )%>px"<%}%>>	
+													</a>
+												</div>
+											</div>		
+										<%}%>
+											
+									<%} else if(mediaCount == 2  || mediaCount == 4 ){ %>
+																					
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+													var media = mediaes[index-1];
+											%>
+												<%	
+													if(media.mediaType != 2) {
+														var
+														media =  mediaes[index-1],
+														classNameMarginBottom = ( index >= 3 ) ? "" : "mb6";
+												%>
+														<div class="file-redesign-aspect _w245">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize(media.size)%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+
+														var
+														photo = mediaes[index-1],
+														imageSrc = photo.hugePath,
+														imageDimension = 260,
+														classNameMarginBottom = ( index >= 3 ) ? "" : "mb6";
+														dimensionClass = "",
+														classNameScaledImageFitWidth = "",
+														stylePosition;
+																		
+														if( photo.width >= photo.height ) {
+															dimensionClass = "_h_" + imageDimension;
+															stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+														} else {
+															dimensionClass = "_w_" + imageDimension;
+															classNameScaledImageFitWidth = "scaled-image-fit-width";
+															stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+														}
+																		
+												%>
+														<div class="ui-scaled-thumb photo-redesign-large photo-redesign-link" data-ft="{}">
+															<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																rel="sync-get"
+																data-request-map="{}"
+																onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																	<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																</div>
+															</a>
+														</div>
+												<%
+													}
+												%>
+											<%
+												}
+											%>
+											</div>
+										</div>
+																									
+									<%} else if(mediaCount == 3 || mediaCount == 6) { %>
+												
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if(mediaes[index-1].mediaType != 2){
+														var
+														media =  mediaes[index-1],
+														classNameMarginBottom = (index >= 4) ? "" : "mb6";
+												%>											
+														<div class="file-redesign-aspect _w160">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = 160,
+															classNameMarginBottom = (index >= 4) ? "" : "mb6",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb photo-redesign-small photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>				
+											</div>
+										</div>
+										
+									<%} else if( mediaCount == 5 ){ %>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+													var media = mediaes[index-1];
+											%>
+												<%	
+													if(media.mediaType != 2) {
+														var
+														mediaDimension = index <= 2 ? 245 : 160,
+														classNameMarginBottom = index == 2 ? "mb6" : "";
+												%>
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize(media.size)%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(media.mediaType == 2) { 
+														var													
+														photo = mediaes[index-1],
+														imageSrc = photo.hugePath,
+														imageDimension = index <= 2 ? 260 : 160,
+														classNamePhotoRedesign = index <= 2 ?  "photo-redesign-large" : "photo-redesign-small",
+														classNameMarginBottom = index <= 2 ? "mb6" : "",
+														dimensionClass = "",
+														classNameScaledImageFitWidth = "",
+														stylePosition;
+																		
+														if( photo.width >= photo.height ) {
+															dimensionClass = "_h_" + imageDimension;
+															stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+														} else {
+															dimensionClass = "_w_" + imageDimension;
+															classNameScaledImageFitWidth = "scaled-image-fit-width";
+															stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+														}
+												%>
+														<div class="ui-scaled-thumb <%=classNamePhotoRedesign %> photo-redesign-link" data-ft="{}">
+															<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																rel="sync-get"
+																data-request-map="{}"
+																onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																	<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																</div>
+															</a>
+														</div>
+												<%
+													}
+												%>
+											<%
+												}
+											%>
+											</div>
+										</div>
+
+									<% 
+										} if( mediaCount == 7 ) {
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														mediaDimension = ( 3 <= index && index <= 5 ) ? 160 : 245, 
+														classNameMarginBottom = index <= 6 ? "mb6" : "";			
+												%>											
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = ( 3 <= index && index <= 5 ) ? 160 : 260,
+															classNamePhotoRedesign = ( 3 <= index && index <= 5 ) ? "photo-redesign-small" : "photo-redesign-large",
+															classNameMarginBottom = index <= 6 ? "mb6" : "",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb <%=classNamePhotoRedesign%> photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>
+																				
+
+									<% 
+										} if( mediaCount == 8 ) {
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														mediaDimension = (  index == 4 || index == 5 ) ? 245 : 160, 
+														classNameMarginBottom = index <= 6 ? "mb6" : "";			
+												%>											
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = ( index == 4 || index == 5 ) ? 260 : 160,
+															classNamePhotoRedesign = ( index == 4 || index == 5 ) ? "photo-redesign-large" : "photo-redesign-small",
+															classNameMarginBottom = index <= 6 ? "mb6" : "",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb <%=classNamePhotoRedesign%> photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>										
+										
+		
+									<% 
+										} if( mediaCount == 10 ) {
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														mediaDimension = ( 4 <= index && index <= 7 ) ? 245 : 160, 
+														classNameMarginBottom = index <= 8 ? "mb6" : "";			
+												%>											
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = ( 4 <= index && index <= 7 ) ? 260 : 160,
+															classNamePhotoRedesign = ( 4 <= index && index <= 7 ) ? "photo-redesign-large" : "photo-redesign-small",
+															classNameMarginBottom = index <= 8 ? "mb6" : "",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb <%=classNamePhotoRedesign%> photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>		
+										
+										
+									<% 
+										} if( mediaCount == 11 ) {
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														mediaDimension = ( index == 4 || index == 5 ) ? 245 : 160, 
+														classNameMarginBottom = index <= 8 ? "mb6" : "";			
+												%>											
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = ( index == 4 || index == 5 ) ? 260 : 160,
+															classNamePhotoRedesign = ( index == 4 || index == 5 ) ? "photo-redesign-large" : "photo-redesign-small",
+															classNameMarginBottom = index <= 8 ? "mb6" : "",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb <%=classNamePhotoRedesign%> photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>										
+										
+									<% 
+										} if( mediaCount == 9 || mediaCount >= 12 ) {
+										
+											mediaCount =  mediaCount >= 12 ? 12 : mediaCount;
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														classNameMarginBottom = (index >= mediaCount - 2) ? "" : "mb6";
+												%>											
+														<div class="file-redesign-aspect _w160">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = 160,
+															classNameMarginBottom = (index >= mediaCount - 2) ? "" : "mb6",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb photo-redesign-small photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>										
+									<%
+										}
+									%>
+									
+									
+								</div>
+							</div>
+						<%
+							}
+						%>

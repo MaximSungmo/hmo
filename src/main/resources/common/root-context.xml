@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+    xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.1.xsd
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+	<!-- Aspect를 위하여 아래 한줄을 추가 -->
+	<aop:aspectj-autoproxy />
+	
+	<context:annotation-config />
+
+	<context:component-scan base-package="kr.co.sunnyvale">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Component" />			
+	</context:component-scan>
+
+    <!-- Spring Job Scheduler -->
+    <task:annotation-driven />
+
+
+	<!-- ehCache bean -->
+	<!--
+ 	<ehcache:annotation-driven />  
+	<ehcache:config cache-manager="cacheManager">
+    	<ehcache:evict-expired-elements interval="60" />
+    </ehcache:config>
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" >
+		<property name="configLocation"  value="classpath:ehcache.xml"/>
+	</bean>
+	-->
+	
+<!-- 	<bean id="hashCodeCacheKeyGenerator" class="com.googlecode.ehcache.annotations.key.HashCodeCacheKeyGenerator" >   -->
+<!-- 	    <property name="includeMethod"  value="false"/>     -->
+<!-- 	</bean> -->
+
+	
+	<!--  메일 서비스	 -->
+	<!-- yacamp.com 로컬 Sendmail 을 통해서 보내기 -->
+   <bean id="mailSender"
+       class="org.springframework.mail.javamail.JavaMailSenderImpl">
+       <property name="host" value="mail.yacamp.com" />
+       <property name="port" value="25" />
+       <property name="protocol" value="smtp" />
+    </bean>
+    		
+
+	<!-- Gmail 을 통해서 보낼때. 인증을 통해 보내는 방법. -->
+	<!--  
+   <bean id="mailSender"
+       class="org.springframework.mail.javamail.JavaMailSenderImpl"
+       p:host="smtp.gmail.com"
+       p:port="465" 
+       p:protocol="smtps"
+       p:username="no-reply@sunnyvale.co.kr"
+       p:password="sunny4185">
+       <property name="javaMailProperties">
+           <props>
+               <prop key="mail.smtps.auth">true</prop>
+               <prop key="mail.smtps.startls.enable">true</prop>
+               <prop key="mail.smtps.debug">true</prop>
+           </props>
+       </property>
+    </bean>
+    
+    -->
+	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/WEB-INF/velocity/"/>
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">utf-8</prop>
+				<prop key="output.encoding">utf-8</prop>
+			</props>
+		</property>
+	</bean>
+	 
+	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+	    <property name="suffix" value=".vm"/>
+		<property name="contentType"><value>text/html; charset=utf-8</value></property>
+	    <!-- property 생략 -->
+	</bean>
+	
+	
+	<!-- MessageSource -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages_ko</value>
+				<value>ValidationMessages_ko</value>
+			</list>
+		</property>
+	</bean>
+
+	 
+	<!-- jedis 설정 -->
+    <bean id="redisClient"
+          class="kr.co.sunnyvale.sunny.redis.RedisClient">
+        <constructor-arg value="20"/>
+        <constructor-arg value="10"/>
+        <constructor-arg value="1000"/>
+        <!-- 
+        <constructor-arg value="115.93.167.196"/>
+         -->
+         <constructor-arg value="115.68.102.211"/>
+        <constructor-arg value="6379"/>
+        <constructor-arg value="fpeltm!@1004"/>
+    </bean>
+
+	<!--  File Upload -->
+	<bean id="multipartResolver"
+	    class="kr.co.sunnyvale.sunnycdn.resolver.CustomCommonsMultipartResolver">
+	
+	    <!-- one of the properties available; the maximum file size in bytes -->
+	    <property name="maxUploadSize" value="5000000"/>
+	</bean>
+
+	<!-- File Service's Imge Propertis -->
+	<util:properties id="imageProperties" location="/WEB-INF/cdn/environment-image-config.xml" />
+    
+</beans>

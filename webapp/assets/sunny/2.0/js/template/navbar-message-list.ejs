@@ -1,0 +1,48 @@
+<li class="top-message notification">
+	<div class="notifMainLink" onclick="window.location.href='/message/<%=id%>'; return false;">
+		<div class="z1 notif_block">
+		
+			<% if( type == 0 ){ %>
+				<img class="_s0 _8o _8r l-ft _rw img" alt="" src="<%= tmpJoinedUsers[0].profilePic %>">
+			<% }else{ %>
+				<% if( lastUserProfilePic == null || lastUserProfilePic == "" ){ %>
+					<img class="_s0 _8o _8r l-ft _rw img" alt="" src="/assets/sunny/2.0/img/default-profile-80x80.png">
+				<% }else{ %> 
+					<img class="_s0 _8o _8r l-ft _rw img" alt="" src="<%=lastUserProfilePic%>">
+				<% } %>
+			<% } %>
+			<div class="_8u _42ef">
+				<div class="info">
+					<div class="clearfix metadata">
+						<div class="title">
+							<strong>
+							<% 
+							if( tmpJoinedUsers != null ){
+							var userLength = tmpJoinedUsers.length;
+							for( var i=0; i < userLength ; i++ ){ 
+							%>
+								<%= tmpJoinedUsers[i].name %><%= i < userLength-1 ? ',' : '' %>
+							<% }} %>
+							<% if( userCount > 4 ){ %>
+								 외 <%= userCount - 4 %>명
+							<% }%>
+							</strong>
+						</div>
+						<div class="snippet preview ">
+							<span>
+							<% if( lastTextSnippet == null || lastTextSnippet == "" ){ %>
+							<% }else{ %> 	
+								<%= lastUserName %> : <%= lastTextSnippet %>
+							<% } %>
+							
+							</span>
+						</div>
+						<span class="timestamp _29j _30k fss fwn fcg">
+							<abbr class="timestamp livetimestamp" data-utime="" data-timestamp="<%=updateDate%>" title=""></abbr>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>

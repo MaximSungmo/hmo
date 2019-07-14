@@ -1,0 +1,31 @@
+<li id="invite-friend-<%=id%>" class="invite-friend-each" data-id="<%=id%>" >
+	<div class="z1">
+		<a href="<%=__g__.sitePath  %>/user/<%=userId%>" style="float:left; margin-right: 10px; display:block;">
+			<img src="<%= userProfilePic %>" style="display:block; height: 50px; width: 50px;" />
+		</a>
+		<div class="z1" style="overflow:hidden;">
+			<div class="" style="float:right; display:inline-block;">
+				<div class="" style="height:50px; vertical-align:middle; display: inline-block;">
+				</div>
+				<div class="" style="vertical-align:middle; display: inline-block;">
+					<div class="user-check-button uiBgCheck" style="display:inline-block; vertical-align: top;" >
+							<input class="user-chkbox" type="checkbox" id="user-chkbox-<%=id%>" name="invite-checked" value="<%=userId%>" />
+							<label for="user-chkbox-<%=id%>">선택하기</label>
+					</div>
+				</div>
+				
+			</div>
+			<div class="" style="overflow: hidden">
+				<div class="" style="display:block; ">
+					<div class="" style="height: 50px; vertical-align: middle; display:inline-block;">
+					
+					</div>
+					<div class="" style="vertical-align: middle; display:inline-block;">
+						<div class=""><%=userName %></div>
+						<a href="#" style="display: block; width: 250px;" ><%=userStatusMessage%></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>

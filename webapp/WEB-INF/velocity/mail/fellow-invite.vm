@@ -1,0 +1,14 @@
+<html>
+<body>
+<table>
+<tr><td colspan="3" width="592px" height="163px">&nbsp;</td></tr>
+<tr><td width="100px">&nbsp;</td><td height="22px" align="center"><span style="font-family:돋움, 굴림, arial, sans-serif; font-size:13px; font-weight:bold">${user.name} 회원님</span></td><td width="100px">&nbsp;</td></tr>
+<tr><td colspan="3" width="592px" height="100px">&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" width="592px" height="60px" align="center"><span style="font-family:돋움, 굴림, arial, sans-serif; font-size:12px;">이 메일은 YA!camp회원가입 후, 자동으로 발송되는 계정인증 이메일입니다.</span><br><span style="font-family:돋움, 굴림, arial, sans-serif; font-size:13px; font-weight:bold">아래에 제공하는 링크를 클릭하여 회원님의 이메일 인증을 완료하여 주십시오.</span>	</td></tr>
+<tr><td colspan="3" width="592px" height="40px">&nbsp;&nbsp;</td></tr>
+<tr><td width="100px">&nbsp;</td><td height="54px" align="center"><a href="http://www.yacamp.com/fellow/email?key=${key.value}&slid=${slid}&rvm=${rvm}" target="_blank"><span style="font-family:돋움, 굴림, arial, sans-serif; font-size:13px; font-weight:bold">인증하기</span></a></td><td width="100px">&nbsp;</td></tr>
+<tr><td colspan="3" width="592px" height="200px">&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td colspan="3" width="592px" height="91px">&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+</body>
+</html>

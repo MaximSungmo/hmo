@@ -1,0 +1,1276 @@
+<%
+	if( null != ipAddress ){
+		var addresses = ipAddress.split(".");
+		ipAddress = addresses[0] + "." + addresses[1] + ".xxx." + addresses[3];  
+	}
+
+	var
+	n = new Date(),
+	dt = new Date( createDate ),
+	m,
+	d,
+	nowDate = n.getFullYear() + "." + ( (m = n.getMonth() + 1 ) < 10 ? "0" : "" ) + m + "." + ( (d = n.getDate() ) < 10 ? "0" : "" ) + d,
+	storyCreateDate = dt.getFullYear() + "." + ( (m = dt.getMonth() + 1 ) < 10 ? "0" : "" ) + m + "." + ( (d = dt.getDate() ) < 10 ? "0" : "" ) + d,
+	nows = nowDate.split("."),					
+	ds = storyCreateDate.split(".");
+	
+	if( Stream.preStoryCreatedate != storyCreateDate ) {
+		if( storyCreateDate == nowDate ) {
+%>
+			<div class="timeline-label _today" data-ltime="<%=nowDate%>">
+				<div class="label-header">
+					<div class="label-header-top">
+						<div>
+							<h3 class="label-header-title"><%=nows[1]%>월  <%=nows[2]%>일, <span class="today-text">오늘</span><span class="_today-empty-msg">의 첫 스토리를 등록해 보세요.</span></h3>
+						</div>
+					</div>
+				</div>
+				<div class="_mline"></div>
+			</div>
+<%		
+		} else {
+			if( Stream.preStoryCreateDate ==  "" ) {
+%>
+				<div class="timeline-label _today _empty" data-ltime="<%=nowDate %>">
+					<div class="label-header">
+						<div class="label-header-top">
+							<div>
+								<h3 class="label-header-title"><%=nows[1]%>월  <%=nows[2]%>일, <span class="_today-empty-msg">오늘의 첫 스토리를 등록해 보세요.</span></h3>
+							</div>
+						</div>
+					</div>
+					<div class="_mline"></div>
+				</div>
+<%
+			}
+%>
+			<div class="timeline-label data-ltime="<%=storyCreateDate %>"">
+				<div class="label-header">
+					<div class="label-header-top">
+						<div>
+							<h3 class="label-header-title"><%=ds[1]%>월 <%=ds[2]%>일</h3>
+						</div>
+					</div>
+				</div>
+				<div class="_mline"></div>
+			</div> 	
+<%
+		}
+		Stream.preStoryCreatedate = storyCreateDate;
+	}
+%>	
+		<div class="timeline-container rw-ui-stream-story" id="story-box-<%=id %>" data-map='{"id":<%=id %>}'>
+			<div class="timeline-items-wrap">
+				
+					<div class="timeline-items">
+					
+						<div class="timeline-item item-header">
+							<div class="rw-story-title">
+								<a class="profile-pic" href="/user/<%=postUserId%>">
+									<img class="img" alt="<%=userName%>" aria-label="<%=userName%>" src="<%=postUserProfilePic %>">	
+								</a>
+								<div class="c">
+									<h3>
+										<% if( groupStory == true ){ %>
+											<a href="/user/<%=userId%>">
+												<strong class="actor"><%=userName%></strong>
+											</a>
+											<i class="fa fa-caret-right bigger-130"></i>
+											<a href="/group/<%=smallGroupId%>">
+												<strong class="actor"><%=smallGroupName%><%= smallGroupType == 3 ? "(부서)" : "(소그룹)"%></strong>
+											</a>
+										<% }else if( postUserId != null && postUserId != userId ){ %>
+											<a class="actor-link" href="/user/<%=postUserId%>">
+												<strong class="actor"><%=postUserName%></strong>
+											</a>
+											<i class="fa fa-caret-right bigger-130"></i>
+											<a href="/user/<%=userId%>">
+												<strong class="actor"><%=userName%></strong>
+											</a>
+										<% }else{ %>
+											<a class="actor-link" href="/user/<%=userId%>">
+												<strong class="actor"><%=userName%></strong>
+											</a>
+										<% } %>
+									</h3>
+									<div class="rw-story-ctime">
+										<span><a href="/story/<%=id %>"><abbr class="timestamp livetimestamp" data-hover="tooltip" data-timestamp="<%=createDate%>" data-tooltip-alignh="left" aria-label="">&nbsp;</abbr></a></span>
+										<% if( permissionType == 0 ) { %>
+											<span>&nbsp;</span>
+											<i class="fa fa-lock fa-1g"></i>
+											<span>&nbsp;</span>
+										<% } else if( permissionType == 1 ) { %>
+											<span>&nbsp;</span>
+											<i class="fa fa-globe fa-1g"></i>
+											<span>&nbsp;</span>
+										<% } else if( permissionType == 2 ) { %>
+											<span>&nbsp;</span>
+											<i class="fa fa-user fa-1g"></i>
+											<span>&nbsp;</span>
+										<% } else { %>
+											<strong>·</strong>
+										<% } %>
+										<span class="ip-address"><%=ipAddress %></span>
+										<span>&nbsp;</span>
+										<a href="http://www.hellomyoffice.com/story/<%=id %>" onclick="Story.copyURlToClipboard(this); return false;" role="button" data-hover="tooltip" data-tooltip-alignh="left" title="스토리 URL 클립보드로 복사"><i class="fa fa-clipboard fa-1g"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="rw-story-context-menu">
+								<div class="rw-story-context-menu-item">
+									<a	class="dropdown-toggle"
+										id="story-<%=id %>-context-trigger"
+										aria-owns="story-<%=id %>-context-popup-menus"
+										aria-haspopup="true"
+										rel="toggle">
+										<i class="fa fa-chevron-down fa-1g"></i>
+									</a>
+									<ul id="story-<%=id %>-context-popup-menus"
+										class="ui-toggle-flyout dropdown-menu pull-right"
+										data-popup-trigger="story-<%=id %>-context-trigger"
+										data-popup-group="global"
+										data-fn-show="ContextMenuPopupToggler.onMenuShow"
+										data-fn-hide="ContextMenuPopupToggler.onMenuHide">
+										<% if( null != __a__ && __a__["is"] && userId == __a__["id"] ) { %>
+											<li>
+												<a	href="/story/<%=id %>/modify"
+													rel="sync-get"
+													ajaxify="Story.onAjaxModify"
+													data-request-map="{}"
+													data-story-id="<%=id %>"
+												  	class="h-icon">
+												  	<i class="fa fa-pencil fa-1g"></i>
+												   	<span class="menu-text">수정하기</span>
+												</a>												
+											</li>
+											<li>
+												<a	href="/story/delete" 
+													role="dialog"
+													data-style="messagebox-yesno"
+													data-title="스토리 삭제"
+													data-message="삭제되면 복구할 수 없습니다.<br>이 스토리를 삭제하시겠습니까?"
+													ajaxify-dialog-yes="Story.onAjaxDeleteStory"
+													data-request-map="{&quot;id&quot;:&quot;<%=id %>&quot;}" 
+													rel="sync-get"
+													class="h-icon">
+													<i class="fa fa-trash-o fa-1g"></i>
+													<span class="menu-text">삭제</span>
+												</a>													
+											</li>
+										<% } %>
+										<li>
+											<a	class="h-icon"
+												role="dialog"
+												aria-control="dialog-content-permissions"
+												data-title="스토리 공개범위"
+												data-close-fn="DialogContentPermissions.onClose"
+												ajaxify-dialog-init="DialogContentPermissions.onAjaxContentPermissions"
+												href="/content/permissions"
+												rel="async-get"
+												data-request-map='{"contentId":<%=id %>,"permId":null,"top":true,"size":20}'>
+												<i class="fa fa-lock fa-1g"></i>
+												<span class="menu-text">공개범위 보기</span>
+											</a>
+										</li>
+										<li>
+											<a	href="/story/<%=id %>"
+												class="h-icon">
+												<i class="fa fa-eye fa-1g"></i>
+												<span class="menu-text">스토리뷰</span>
+											</a>
+										</li>
+										<li>
+											<a	class="h-icon"
+												href="#"
+												role="dialog"
+												aria-control="dialog-bookmark"
+												data-title="북마크"
+												data-custom-nm="등록"
+												data-custom-fn="DialogBookmark.onRegisterClicked"
+												data-cid="<%=id %>">
+												<i class="fa fa-bookmark fa-1g"></i>
+												<span class="menu-text">북마크</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div id="editable-composer-wrap-<%=id %>" class="timeline-item item-body item-editor"></div>
+								
+						<div id="editable-contents-<%=id %>">
+														
+						<div class="timeline-item item-body item-message">
+							<h5 class="rw-ui-stream-message">
+								<span class="rw-message-body">
+									<%if(taggedTextNext != null) { %>
+										<div class="rw-message-body-wrap" id="message-exposed-<%=id %>">
+											<span class="user-content">
+												<%=taggedTextPrev%>
+												<span class="text-exposed-hide">...</span>
+												<span class="text-exposed-show">
+													<%=taggedTextNext%>
+													<br>
+													<br>
+												</span>
+												<span class="text-exposed-hide">
+													<span class="text-exposed-link">
+														<a href="#" onclick="css_add_class($(&quot;#message-exposed-<%=id %>&quot;), &quot;text-exposed&quot;); return false;">더보기 </a>
+													</span>
+												</span>
+											</span>
+										</div>
+									<%}else{%>		
+										<span class="rw-message-body-wrap" id="message-exposed-<%=id %>">
+											<span class="user-content">
+												<%=taggedTextPrev%>
+												<%=taggedTextNext%>
+											</span>
+										</span>
+									<%}%>		
+								</span>
+							</h5>
+						</div>
+						
+						<%
+							 var mediaCount =  mediaes ? mediaes.length : 0;
+							if( mediaCount > 0 ) {
+						%>
+						
+							<div class="timeline-item item-body attachments-container">
+								<div>
+								
+									<%if( mediaCount == 1 ){%>
+									
+										<%
+											if(mediaes[0].mediaType != 2) {
+												var media = mediaes[0];
+										%>
+											<div class="ui-stream-attachments">
+												<div class="z1 attachments-redesign">
+													<div class="file-redesign-aspect">
+														<div class="file-wrap">
+															<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																<span class="file-type-image">
+																	<img src="/assets/sunny/2.0/img/file-icon.png">
+																</span>
+															</a>
+															<div class="file-desc">
+																<div class="file-desc-item">
+																	<a class="download-media" href="/download/<%=media.id%>/<%=media.fileName%>" >
+																		<%=media.fileName %>
+																	</a>
+																</div>
+																<div class="file-desc-item _l">
+																	<%=Stream.formatFileSize( media.size )%>
+																</div>																			
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>										
+										<% 
+											} else if(mediaes[0].mediaType == 2) {
+												var photo = mediaes[0];
+												var photoFitHeight = photo.height*350/photo.width;
+										%>											
+											<div class="ui-stream-attachments _photo_1">
+												<div class="z1 attachments-redesign">
+													<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=0&mode=theater" 
+														class="ui-photo-thumb photo-redesign-aspect" 
+														data-request-map="{}"
+														rel="sync-get"
+														onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+														<img src="<%=photo.hugePath %>" 
+															 class="img <%if( photo.width >= photo.height && photo.width > 489 ){ %>_w489<%}%> <%if( photo.height > photo.width && photoFitHeight > 320){%>_h489<%}%>"
+															 <%if( photo.height > photo.width && photoFitHeight > 320 ){%>style="top:<%=(-1*( photoFitHeight - 320 )/2 )%>px"<%}%>>	
+													</a>
+												</div>
+											</div>		
+										<%}%>
+											
+									<%} else if(mediaCount == 2  || mediaCount == 4 ){ %>
+																					
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+													var media = mediaes[index-1];
+											%>
+												<%	
+													if(media.mediaType != 2) {
+														var
+														media =  mediaes[index-1],
+														classNameMarginBottom = ( index >= 3 ) ? "" : "mb6";
+												%>
+														<div class="file-redesign-aspect _w245">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a class="download-media " href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize(media.size)%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+
+														var
+														photo = mediaes[index-1],
+														imageSrc = photo.hugePath,
+														imageDimension = 260,
+														classNameMarginBottom = ( index >= 3 ) ? "" : "mb6";
+														dimensionClass = "",
+														classNameScaledImageFitWidth = "",
+														stylePosition;
+																		
+														if( photo.width >= photo.height ) {
+															dimensionClass = "_h_" + imageDimension;
+															stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+														} else {
+															dimensionClass = "_w_" + imageDimension;
+															classNameScaledImageFitWidth = "scaled-image-fit-width";
+															stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+														}
+																		
+												%>
+														<div class="ui-scaled-thumb photo-redesign-large photo-redesign-link" data-ft="{}">
+															<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																rel="sync-get"
+																data-request-map="{}"
+																onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																	<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																</div>
+															</a>
+														</div>
+												<%
+													}
+												%>
+											<%
+												}
+											%>
+											</div>
+										</div>
+																									
+									<%} else if(mediaCount == 3 || mediaCount == 6) { %>
+												
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if(mediaes[index-1].mediaType != 2){
+														var
+														media =  mediaes[index-1],
+														classNameMarginBottom = (index >= 4) ? "" : "mb6";
+												%>											
+														<div class="file-redesign-aspect _w160">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a class="download-media " href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = 160,
+															classNameMarginBottom = (index >= 4) ? "" : "mb6",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb photo-redesign-small photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>				
+											</div>
+										</div>
+										
+									<%} else if( mediaCount == 5 ){ %>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+													var media = mediaes[index-1];
+											%>
+												<%	
+													if(media.mediaType != 2) {
+														var
+														mediaDimension = index <= 2 ? 245 : 160,
+														classNameMarginBottom = index == 2 ? "mb6" : "";
+												%>
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a class="download-media " href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize(media.size)%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(media.mediaType == 2) { 
+														var													
+														photo = mediaes[index-1],
+														imageSrc = photo.hugePath,
+														imageDimension = index <= 2 ? 260 : 160,
+														classNamePhotoRedesign = index <= 2 ?  "photo-redesign-large" : "photo-redesign-small",
+														classNameMarginBottom = index <= 2 ? "mb6" : "",
+														dimensionClass = "",
+														classNameScaledImageFitWidth = "",
+														stylePosition;
+																		
+														if( photo.width >= photo.height ) {
+															dimensionClass = "_h_" + imageDimension;
+															stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+														} else {
+															dimensionClass = "_w_" + imageDimension;
+															classNameScaledImageFitWidth = "scaled-image-fit-width";
+															stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+														}
+												%>
+														<div class="ui-scaled-thumb <%=classNamePhotoRedesign %> photo-redesign-link" data-ft="{}">
+															<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																rel="sync-get"
+																data-request-map="{}"
+																onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																	<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																</div>
+															</a>
+														</div>
+												<%
+													}
+												%>
+											<%
+												}
+											%>
+											</div>
+										</div>
+
+									<% 
+										} if( mediaCount == 7 ) {
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														mediaDimension = ( 3 <= index && index <= 5 ) ? 160 : 245, 
+														classNameMarginBottom = index <= 6 ? "mb6" : "";			
+												%>											
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a class="download-media " href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = ( 3 <= index && index <= 5 ) ? 160 : 260,
+															classNamePhotoRedesign = ( 3 <= index && index <= 5 ) ? "photo-redesign-small" : "photo-redesign-large",
+															classNameMarginBottom = index <= 6 ? "mb6" : "",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb <%=classNamePhotoRedesign%> photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>
+																				
+
+									<% 
+										} if( mediaCount == 8 ) {
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														mediaDimension = (  index == 4 || index == 5 ) ? 245 : 160, 
+														classNameMarginBottom = index <= 6 ? "mb6" : "";			
+												%>											
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a class="download-media " href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = ( index == 4 || index == 5 ) ? 260 : 160,
+															classNamePhotoRedesign = ( index == 4 || index == 5 ) ? "photo-redesign-large" : "photo-redesign-small",
+															classNameMarginBottom = index <= 6 ? "mb6" : "",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb <%=classNamePhotoRedesign%> photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>										
+										
+		
+									<% 
+										} if( mediaCount == 10 ) {
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														mediaDimension = ( 4 <= index && index <= 7 ) ? 245 : 160, 
+														classNameMarginBottom = index <= 8 ? "mb6" : "";			
+												%>											
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a class="download-media " href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = ( 4 <= index && index <= 7 ) ? 260 : 160,
+															classNamePhotoRedesign = ( 4 <= index && index <= 7 ) ? "photo-redesign-large" : "photo-redesign-small",
+															classNameMarginBottom = index <= 8 ? "mb6" : "",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb <%=classNamePhotoRedesign%> photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>		
+										
+										
+									<% 
+										} if( mediaCount == 11 ) {
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														mediaDimension = ( index == 4 || index == 5 ) ? 245 : 160, 
+														classNameMarginBottom = index <= 8 ? "mb6" : "";			
+												%>											
+														<div class="file-redesign-aspect _w<%=mediaDimension%>">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a class="download-media " href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = ( index == 4 || index == 5 ) ? 260 : 160,
+															classNamePhotoRedesign = ( index == 4 || index == 5 ) ? "photo-redesign-large" : "photo-redesign-small",
+															classNameMarginBottom = index <= 8 ? "mb6" : "",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb <%=classNamePhotoRedesign%> photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>										
+										
+									<% 
+										} if( mediaCount == 9 || mediaCount >= 12 ) {
+										
+											mediaCount =  mediaCount >= 12 ? 12 : mediaCount;
+									%>
+										<div class="ui-stream-attachments _swipe_list swipe" data-count-item="<%=mediaCount%>" data-index="0">
+											<div class="z1 attachments-redesign swipe-wrap">
+											<%
+												for( var index = 1; index <= mediaCount; index++ ) {
+											%>
+												<%	
+													if( mediaes[index-1].mediaType != 2 ) {
+														var
+														media = mediaes[index-1],
+														classNameMarginBottom = (index >= mediaCount - 2) ? "" : "mb6";
+												%>											
+														<div class="file-redesign-aspect _w160">
+															<div class="file-wrap mr7 <%=classNameMarginBottom %>">
+																<a class="download-media file-type-image" href="/download/<%=media.id%>/<%=media.fileName%>">
+																	<span class="file-type-image">
+																		<img src="/assets/sunny/2.0/img/file-icon.png">
+																	</span>
+																</a>
+																<div class="file-desc">
+																	<div class="file-desc-item">
+																		<a class="download-media " href="/download/<%=media.id%>/<%=media.fileName%>">
+																			<%=media.fileName %>
+																		</a>
+																	</div>
+																	<div class="file-desc-item _l">
+																		<%=Stream.formatFileSize( media.size )%>
+																	</div>																			
+																</div>
+															</div>
+														</div>
+												<% 
+													} else if(mediaes[index-1].mediaType == 2) { 
+															var
+															photo = mediaes[index-1],
+															imageSrc = photo.hugePath,
+															imageDimension = 160,
+															classNameMarginBottom = (index >= mediaCount - 2) ? "" : "mb6",
+															dimensionClass = "",
+															classNameScaledImageFitWidth = "",
+															stylePosition;
+																		
+															if( photo.width >= photo.height ) {
+																dimensionClass = "_h_" + imageDimension;
+																stylePosition = "left:-" + ( ( ( (imageDimension * photo.width) / photo.height) - imageDimension ) / 2 ) + "px";
+															} else {
+																dimensionClass = "_w_" + imageDimension;
+																classNameScaledImageFitWidth = "scaled-image-fit-width";
+																stylePosition = "top:-" + ( ( ( (imageDimension * photo.height) / photo.width) - imageDimension ) / 2 ) + "px";
+															}	
+												%>														
+															<div class="ui-scaled-thumb photo-redesign-small photo-redesign-link" data-ft="{}">
+																<a  href="/story/<%=id %>?pid=<%=photo.id %>&cnt=<%=mediaCount %>&idx=<%=index-1 %>&mode=theater"
+																	rel="sync-get"
+																	data-request-map="{}"
+																	onclick="FileViewer&amp;&amp;FileViewer.load(this); return false;">
+																	<div class="mr7 <%=classNameMarginBottom %> ui-scaled-image-container photo-wrap">
+																		<img class="img <%=classNameScaledImageFitWidth %> <%=dimensionClass %>" src="<%=imageSrc %>" alt="" style="<%=stylePosition %>">
+																	</div>
+																</a>
+															</div>
+												<%
+													}
+												%>
+											<%
+												}															
+											%>
+											</div>
+										</div>										
+									<%
+										}
+									%>
+									
+									
+								</div>
+							</div>
+						<%
+							}
+						%>
+
+						</div>
+						<div class="timeline-item item-body item-actions">
+							<span class="ui-action-links-bottom react-icons-<%=id %>">
+									<% if( null != __a__ && __a__["is"] ) { %>
+																			
+												<span class="story-react">
+													
+													<a	href="/feel/okay"
+														role="radio"
+														class="feel-radio-react-del-<%=id %>"
+														data-ft-class="feel-radio-react-del-<%=id %>"
+														ajaxify="Story.onAjaxFeel"
+														aria-checked="<%if(feeledId == 1){%>true<%}else{%>false<%}%>"
+														aria-controls="feel-counter-<%=id %>"
+														rel="sync-get"
+														data-ft="<%=id %>"
+														data-request-map="{&quot;contentId&quot;:&quot;<%=id %>&quot;,&quot;feelId&quot;:&quot;1&quot;}">
+														<span class="react-icon emo-grin <%if(feeledId == 1){%>reacted<%}%>"></span>
+													좋아요 <span class="react-icon <%if(feeledId == 1){%>reacted<%}%>">취소</span></a>
+												</span>
+												<span class="story-stream-dott"> · </span>
+												<a	class="h-icon"
+													href="#"
+													role="dialog"
+													aria-control="dialog-bookmark"
+													data-title="스크랩"
+													data-custom-nm="등록"
+													data-custom-fn="DialogBookmark.onRegisterClicked"
+													data-cid="<%= id %>">
+													<i class="story-stream-bookmark-icon"></i>
+													<span class="menu-text story-stream-bookmark-text">스크랩</span>
+												</a>
+									<% } %>
+							</span>
+						</div>
+						
+						<%
+							var feelCount = ( feelCount == null || feelCount < 0) ? 0 : feelCount
+						%>
+							
+						<div class="timeline-item item-body ui-comment-container <%=(__mobile__["is"] ? 'container-mobile':'')%><%=(__mobile__["ipad"] ? '-tablet':'')%>">
+						
+										<span class="head-line">&nbsp;</span>
+										
+										<div class="cmnt-row-wrap" <%if(feelCount == 0){%>style="display:none"<%}%>>
+											<div class="timeline-feedback-actions _b cearfix">
+												<span> 
+													<a	class="feel-counter-<%=id %>"
+														role="dialog"
+														aria-control="dialog-feel-users"
+														ajaxify-dialog-init="DialogFeelUsers.onAjaxFeelUsers"
+														rel="sync-get"
+														href="/feel/users"
+														data-request-map="{&quot;contentId&quot;:<%=id %>,&quot;feelId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+														data-title="스토리 평가 사용자"
+														data-close-fn="DialogFeelUsers.onClose"
+														data-count="<%=feelCount %>">
+														<i class="fa fa-heart fa-1g"></i>
+														<span class="count-text"><%=feelCount %>명</span>
+													</a><span>이 평가했습니다.</span>
+												</span>
+											</div>
+										</div>							
+		
+										<div class="rw-comment-container">
+											<%
+												if( replyCount > 3 ) {
+													var requestReplyCount = 10,
+														remainReplyCount = replyCount-3;
+													
+											%> 
+												<div class="cmnt-row-wrap">
+													<div class="timeline-feedback-actions _b cearfix">
+														<span> 
+															<a	rel="async-get"
+																href="/reply/stream"
+																ajaxify="Reply.onReplyStream"
+																ajaxify-before="Reply.onReplyStreamBefore"
+																data-reply-count="<%=remainReplyCount %>"
+																data-request-map="{ &quot;top&quot;:true, &quot;contentId&quot;:<%=id %>,&quot;replyId&quot;:<%=replys[0].id %>,&quot;size&quot;:<%=requestReplyCount %> }">
+																<i class="fa fa-comment fa-1g"></i>
+																<i class="fa fa-spin fa-1g fa-spinner" style="display:none"></i>
+																<span>
+																	<% if( remainReplyCount > requestReplyCount ) { %>
+																	지난 댓글 더 보기
+																	<% } else { %>
+																	댓글 <%=remainReplyCount %>개 더 보기 
+																	<% } %>
+																</span>
+															</a>
+														</span>
+													</div>
+												</div>							
+											<%
+												}
+											%>
+											<ul class="uc-container">
+												<%
+													var replyCount = ( replys != null ) ? replys.length : 0; 
+													for( var i = 0; i < replyCount; i++ ) {
+														var reply = replys[i];
+												%>
+												<li class="ui-react-row">
+													<div class="z1">
+														<div class="cmnt-profile-box">
+															<a	href="/user/<%=reply.user.id %>"
+																data-hovercard="">
+																<img src="<%=reply.user.profilePic %>" alt="" class="cmmnt-profile-pic"></a>
+														</div>
+														<div>
+															<div class="image-block-content">
+																<% 
+																	if( null != __a__ && __a__["is"] && __a__["id"] == reply.user.id){
+																%>
+																	<div class="ui-button-opa-block">	
+																		<a	href="/reply/delete"
+																			role="dialog"
+																			data-style="messagebox-yesno"
+																			data-title="댓글 삭제"
+																			data-message="삭제되면 복구할 수 없습니다.<br>이 댓글을 삭제하시겠습니까?"
+																			ajaxify-dialog-yes="Reply.onAjaxReplyDelete" 
+																			rel="sync-get"
+																			data-request-map="{&quot;id&quot;:&quot;<%=reply.id %>&quot;}"
+																			class="ui-button-opa-a ui-comment-close-button">
+																		<i class="fa fa-times fa-1g"></i></a>
+																	</div>	
+																<%
+																	}
+																%>
+																<div>
+																	<div>
+																		<div class="ui-comment-content">
+																			<a href="/user/<%reply.user.id %>" data-hovercard="" class="ui-comment-user-name"><%=reply.user.name %></a>
+																			<% 
+																				if( reply.taggedTextNext != null ) { 
+																			%>
+																					<div id="reply-exposed-<%=reply.id %>">
+																						<div><%=reply.taggedTextPrev%></div>
+																						<span class="text-exposed-hide">...</span>
+																						<span class="text-exposed-show"><%=reply.taggedTextNext%><br/><br/></span>
+																						<span class="text-exposed-hide">
+																							<span class="text-exposed-link">
+																								<a href="#" onclick="css_add_class($(&quot;#reply-exposed-<%=reply.id %>&quot;), &quot;text-exposed&quot;); return false;">더보기</a>
+																							</span>
+																						</span>
+																					</div>
+																			<%
+																				} else {
+																			%>			
+																					<span><%=reply.taggedTextPrev%></span>
+																			<%
+																				}
+																			%>			
+																		</div>
+																		<%
+																			if( reply.mediaCount == 1 ) {
+																				if( reply.mediaType != 2 ) {
+																		%>
+																					<div class="ui-media-thumb">
+																						<a class="download-media " href="/download/<%=reply.mediaId %>/<%=reply.fileName %>">
+																							<span class="file">
+																								<span><%=reply.fileName %></span>
+																							</span>
+																						</a>	
+																					</div>
+																		<%
+																				} else if( reply.mediaType == 2 ) {
+																				
+																					var cmntPhotoPath = reply.hugePath;
+																					if( reply.width < reply.height ) {
+																						var
+																						cmntPhotoHeight = reply.height > 210 ? 210 : reply.Height,
+																						cmntPhotoWidth =  cmntPhotoHeight * reply.width / reply.height;	
+																		%>
+																						<div class="ui-media-thumb">
+																							<div>
+																								<div class="ui-scaled-image-container" style="width:<%=cmntPhotoWidth %>px; height:<%=cmntPhotoHeight %>px;">
+																									<a class="reply-photo-thumb"
+																										   data-src-o="<%=reply.originalPath %>"
+																										   href="#"
+																										   onclick="Reply.openPhotoFullScreen( this ); return false;">
+																										<img class="img" 
+																									 		 src="<%=cmntPhotoPath %>"
+																									 		 alt=""
+																									 		 width="<%=cmntPhotoWidth %>" height="<%=cmntPhotoHeight %>">
+																									</a>
+																								</div>
+																							</div>			 
+																						</div>
+																		<%
+																					} else {
+																						var
+																						cmntPhotoWidth = reply.width > 220 ? 220 : reply.width,
+																						cmntPhotoHeight = cmntPhotoWidth * reply.height / reply.width;
+																		%>
+																						<div class="ui-media-thumb">
+																							<div>																					
+																								<div class="_46-h" style="width:<%=cmntPhotoWidth %>px; height:<%=cmntPhotoHeight %>px;">
+																									<a class="reply-photo-thumb"
+																										   data-src-o="<%=reply.originalPath %>"
+																										   href="#"
+																										   onclick="Reply.openPhotoFullScreen( this ); return false;">
+																										<img class="_46-i img" 
+																									 		 src="<%=cmntPhotoPath %>"
+																									 		 style="left:0px; top:0px;" alt="" width="<%=cmntPhotoWidth %>" height="<%=cmntPhotoHeight %>">
+																									</a>
+																								</div>
+																							</div>
+																						</div>																				
+																		<%
+																					}
+																				}
+																			}
+																		%>		
+																		<div class="ui-comment-actions">
+																			<span>
+																				<a	href="#"
+																					class="ui-link-subtle">
+																					<abbr data-timestamp="<%=createDate%>" class="timestamp livetimestamp"  data-hover="tooltip" data-tooltip-alignh="left" aria-label=""></abbr>
+																				</a>
+																			</span>
+																			<span> · </span>
+																			<%
+																				if( null != __a__ && __a__["is"] ) {
+																			%>
+																					<span class="ui-reply-like-button ui-reply-like-button-<%=reply.id %> <%if(reply.feeledId == 1){%>mt-1-like<%}else{%>mt-0-like<%}%>">
+																						<a	role="checkbox"
+																							aria-checked="<%if(reply.feeledId == 1){%>true<%}else{%>false<%}%>"
+																							class="ui-reply-like-icon"
+																							href="/feel/okay"
+																							data-control-class="ui-reply-like-button-<%=reply.id %>"
+																							rel="sync-get"
+																							ajaxify="Reply.onAjaxFeelOkay"
+																							data-request-map="{&quot;contentId&quot;:&quot;<%=reply.id %>&quot;,&quot;feelId&quot;:&quot;1&quot; }"
+																							title="<%if(reply.feeledId == 1){%>좋아요 취소<%}else{%>좋아요<%}%>">
+																							<i class="fa fa-heart-c fa-1g"></i>
+																						</a>
+																						<span> : </span>
+																						<a	role="dialog"
+																							aria-control="dialog-feel-users"
+																							ajaxify-dialog-init="DialogFeelUsers.onAjaxFeelUsers"
+																							class="ui-reply-feel-score"
+																							href="/feel/users"
+																							rel="sync-get"
+																							data-request-map="{&quot;contentId&quot;:<%=reply.id %>,&quot;feeledId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+																							data-title="댓글 평가 사용자"
+																							data-close-fn="DialogFeelUsers.onClose"
+																							data-feel-score="<%=reply.dynamic.feelScore%>"><%=reply.dynamic.feelScore %>명</a>
+																					</span>
+																			<%
+																				} else {
+																			%>			
+																					<span class="ui-reply-like-button">
+																						<a	role="dialog"
+																							aria-control="dialog-feel-users"
+																							ajaxify-dialog-init="DialogFeelUsers.onAjaxFeelUsers"
+																							class="ui-reply-feel-score"
+																							href="/feel/users"
+																							rel="sync-get"
+																							data-request-map="{&quot;contentId&quot;:<%=reply.id %>,&quot;feeledId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+																							data-title="댓글 평가 사용자"
+																							data-close-fn="DialogFeelUsers.onClose"
+																							data-feel-score="<%=reply.dynamic.feelScore%>"><%=reply.dynamic.feelScore %>명</a>
+																					</span>
+																			<%
+																				}
+																			%>																	
+																		</div>
+																	</div>
+																</div>		
+															</div>
+														</div>	
+													</div>
+												</li>
+												<%
+													}
+												%>
+												<%
+													if( null != __a__ && __a__["is"] ) {
+												%>
+												<li class="ui-react-row _l">
+													<div class="z1">
+														<div class="cmnt-profile-box">
+															<div>
+																<img src='<%=__a__["profilePic"]%>' alt="" class="cmmnt-profile-pic">
+															</div>
+														</div>
+														<div class="block-content-input">
+															<div class="ui-composer-out">
+																<div class="ui-mentions-input">
+																	<div class="highlighter">
+																		<div><span class="highlighter-content hidden-elem mentions-highlighter"></span></div>
+																	</div>
+																	<div class="ui-type-head mentions-type-head">
+																		<% if(__mobile__["is"] == true || __mobile__["ipad"] == true ) { %>
+																			<form	rel="async"
+																					name="cmmnt-form-<%=id %>"
+																					method="post"
+																					action="/reply/post"
+																					onsubmit="return false;">
+																				<div class="inner-wrap add-comment">
+																					<textarea title="댓글달기"
+																							  placeholder="댓글달기" 
+																							  autocomplete="off"
+																						 	 spellcheck="false"  
+																						  	class="text-input mentions-textarea ui-textarea-auto-grow data-textarea-autogrow-set ui-textarea-no-resize ui-add-comment-input dom-control-placeholder"></textarea>
+																				</div>	
+																				<input name="contentId" value="<%=id%>" type="hidden">
+																				<input name="text" autocomplete="off" class="mentions-hidden mentions-text" type="hidden" value="">
+																			</form>
+																			<div class="composer-tool-button _m">
+																				<a rel="ignore" role="button" class="composer-tool-button-file">
+																					<div class="composer-tool-button-inner">
+																						<form enctype="multipart/form-data" action="/upload" method="post">
+																							<input type="file" name="file" onchange="Reply.onFileSelected(this);" accept="*/*">
+																							<input type="hidden" name="upid" value="">
+																						</form>
+																					</div>
+																				</a>
+																			</div>																			
+																			<div class="btn-add-commnet-wrap">	
+																				<a	href="#"
+																					class="btn-add-commnet hmo-button hmo-button-white hmo-button-small-3">게시</a>
+																			</div>
+																		<% } else { %>
+																			<form	rel="async"
+																					name="cmmnt-form-<%=id %>"
+																					method="post"
+																					action="/reply/post"
+																					onsubmit="return false;">																		
+																				<div class="inner-wrap attach-file">
+																					<textarea title="댓글달기"
+																							  placeholder="댓글달기" 
+																							  autocomplete="off"
+																							  spellcheck="false"  
+																						  	  class="text-input mentions-textarea ui-textarea-auto-grow data-textarea-autogrow-set ui-textarea-no-resize ui-add-comment-input dom-control-placeholder"></textarea>
+																				</div>
+																				<input name="contentId" value="<%=id%>" type="hidden">
+																				<input name="text" autocomplete="off" class="mentions-hidden mentions-text" type="hidden" value="">																				
+																			</form>	
+																			<div class="composer-tool-button">
+																				<a rel="ignore" role="button" class="composer-tool-button-file">
+																					<div class="composer-tool-button-inner">
+																						<form enctype="multipart/form-data" action="/upload" method="post">
+																							<input type="file" name="file" onchange="Reply.onFileSelected(this);" accept="*/*">
+																							<input type="hidden" name="upid" value="">
+																						</form>
+																					</div>
+																				</a>
+																			</div>																			
+																		<% } %>
+																	</div>
+																</div>
+																<div style="position:relative; height:0">
+																	<div class="mention-select-box" style="display:none">
+																		<ul></ul>	
+																	</div>
+																</div>
+																<div class="ufi-comment-file-attached-preview" style="display:none">
+																	<div class="ui-scaled-image-container">
+																	</div>
+																	<a	href="#"
+																		role="button"
+																		class="cmnt-a-pview-close"
+																		aria-label="Remove Photo"
+																		data-hover="tooltip"
+																		data-tooltip-alignh="center">
+																		<i class="fa fa-times fa-1g"></i></a>
+																</div>																
+															</div>
+														</div>
+													</div>	
+												</li>
+												<%
+													}
+												%>
+											</ul>
+										</div>
+						</div>
+					</div>
+					<div class="timeline-items-footer"></div>
+			</div>
+		</div>

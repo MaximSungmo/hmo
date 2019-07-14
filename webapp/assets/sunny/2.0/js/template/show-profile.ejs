@@ -1,0 +1,60 @@
+
+<div class="media">
+  <span class="pull-left address-profile-pic-wrap" href="#">
+    <a href="#">
+    	<img class="media-object" data-src="holder.js/64x64" src="<%= profilePic %>">
+    </a>
+    <a class="address-homelink" href="/user/<%= id %>">홈으로 가기</a>
+  </span>
+  
+  <div class="media-body address-profile-wrap">
+    <h4 class="media-heading"><%= name %>
+    	<% if( status == 0 ){ %>
+    		<span class="label label-warning">근무중</span>
+    	<% }else if( status == 1 ){ %>
+    		<span class="label label-success arrowed-in">휴가</span>
+    	<% }else if( status == 2 ){ %>
+    		<span class="label">퇴사</span>
+    	<% } %>
+    </h4>
+ 
+    <!-- Nested media object -->
+    <div class="media">
+    <div>
+		<span>직책 : </span>
+		<span><%= jobTitlesString %></span>
+	</div>	
+	<div>
+		<span>부서 : </span>
+		<span>
+		
+		<% if( departments != null ){ 
+			for( var i in departments ){
+		%>
+			<a href="/group/<%= departments[i].id %>"><%= departments[i].name %></a>
+		<%
+			}
+		} %>
+	</div>	
+	   <div>
+	   	<span>이메일 : </span>
+	   	<span><a href="mailto:<%= email %>"><%= email %></a></span>
+	   
+	   </div>
+		<div>
+    		<span>휴대폰 : </span>
+    		<span><a href="tel:<%= phone %>"><%= phone %></a></span>
+    	</div>
+    	
+    	<div>
+			<span>사내번호 : </span>
+			<span><a href="tel:<%= phone %>"><%= innercall %></a></span>
+		</div>
+		<div>
+			<span>상태메시지 : </span>
+			<span><%= statusMessage %></span>
+		</div>
+		
+    </div>
+  </div>
+</div>

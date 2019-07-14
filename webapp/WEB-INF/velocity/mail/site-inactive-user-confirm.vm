@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<head>
+<title>이메일을 인증하여주세요.</title>
+</head>
+<body>
+<table width="100%">
+<tbody>
+<tr>
+	<td valign="top">
+		<table id="email-table" style="border-collapse:collapse; width:95%;" border="0" cellpadding="0" cellspacing="0">
+			<tbody>
+				<tr>
+					<td id="email-content" style="font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif; font-size:12px;">
+						<table style="border-collapse:collapse; width:580px;" cellpadding="0" cellspacing="0">
+							<tbody>
+								<tr>
+									<td style="font-size:16px; font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif; background:#438eb9; color:#FFFFFF; font-weight:bold; vertical-align:baseline; letter-spacing:-0.03em; text-align:left; padding:8px 38px 8px;">
+										<a target="_blank" style="text-decoration:none;" href="http://${sunny.serverName}">
+											<span style="color:#FFFFFF; font-weight:bold; font-family: AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif; vertical-align:middle; font-size:18px; letter-spacing:-0.03em; text-align:left; vertical-align:baseline;">이메일 인증</span>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table style="border-collapse:collapse; width:580px;" cellpadding="0" cellspacing="0">
+							<tbody>
+								<tr>
+									<td style="font-size:11px; font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif; padding:25px 20px; background-color:#fff; border-left:1px solid #ccc; border-right:1px solid #ccc; border-top:1px solid #ccc; border-bottom:1px solid #ccc; line-height:16px;">
+										<table style="border-collapse:collapse;" cellpadding="0" cellspacing="0">
+											<tbody>
+												<tr>
+													<td style="font-size:11px; font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif; padding:10px 20px; line-height:16px; width:505px;">
+														<table style="border-collapse:collapse;" cellpadding="0" cellspacing="0">
+															<tbody>
+																<tr>
+																	<td style="font-size:14px; font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif;">
+																		 ${siteInactiveUser.name}님 안녕하세요.
+																	</td>	
+																</tr>
+																<tr>
+																	<td style="font-size:13px;font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif; padding:10px 0 15px 0; line-height:1.4em;">
+																		이 메일은  회원가입 후 이메일 인증을 하기 위한 안내메일입니다.<br />
+																		<strong>아래에 제공하는 링크를 클릭하여 회원님의 이메일 인증을 완료하여 주십시오.</strong>
+																	</td>
+																</tr>
+																<tr>
+																	<td style="background-color:#ccc;" height="1">
+																	</td>
+																</tr>
+																<tr>
+																<td style="font-size:11px;font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif;">
+																<table style="border-collapse:collapse;" cellpadding="0" cellspacing="0">
+																<tbody>
+																	<tr>
+																	<td style="font-size:11px;font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif;padding:15px 20px 15px 0;">
+																	<table style="border-collapse:collapse;"cellpadding="0" cellspacing="0">
+																	<tbody>
+																			<tr>
+																				<td style="padding-right:5px;font-size: 0px;" valign="top">
+																				
+																				</td>
+																				<td style="width:100%;" valign="top">
+																					<a target="_blank" href="http://${sunny.serverName}/" style="color:#686868;text-decoration:none;font-size:14px;">서비스로 바로가기</a>
+																				</td>
+																			</tr>	
+																	</tbody>
+																	</table>
+																	</td>
+																	</tr>
+																</tbody>
+																</table>
+																</td>
+																</tr>
+																<tr>
+																<td style="font-size:11px;font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif;padding:5px 0 10px 0;">				
+																	<table style="border-collapse:collapse;margin:auto;" cellpadding="0" cellspacing="0">
+																	<tbody>
+																			<tr>	 
+																			<td style="font-size:11px;font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif;padding-right:10px;">
+																			<table style="border-collapse:collapse;" cellpadding="0" cellspacing="0">
+																			<tbody>
+																				<tr>
+																				<td style="border-width: 1px;border-style: solid;border-color: #3e7ba0;background-color: #4f99c6;" >
+																				<table style="border-collapse:collapse;" cellpadding="0" cellspacing="0">
+																				<tbody>	
+																					<tr>
+																					<td style="font-size:11px;font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif;padding:6px 11px 6px;border-top:1px solid #3e7ba0;">
+																					<a target="_blank" href="http://${sunny.serverName}/user/activate?id=${siteInactiveUser.id}&key=${key.value}" style="color:#3b5998;text-decoration:none;">
+																						<span style="font-weight:bold;white-space:nowrap;color: #fff;font-size: 16px;">이메일 인증하기</span>
+																					</a>
+																					</td>
+																					</tr>
+																				</tbody>
+																				</table>				
+																				</td>	
+																				</tr>
+																			</tbody>	
+																			</table>
+																			</td>
+																			</tr>
+																	</tbody>
+																	</table>
+																</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table style="border-collapse:collapse;width:580px;" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td style="font-size:12px;font-family:AppleGothic,'나눔고딕', 'NanumGothic', '돋움',Dotum, sans-serif;padding:10px;background-color:#fff;border-left:none;border-right:none;border-top:none;border-bottom:none;color:#999999;border:none;">
+									이 메시지가 <a target="_blank" href="mailto:${siteInactiveUser.email}" style="color:#438eb9;text-decoration:none;">${siteInactiveUser.email}</a>에 전송되었습니다.<br />
+								         앞으로 Sunnyvale로부터 이같은 이메일을 받지 않고자 할 경우 <a target="_blank" href="http://${sunny.serverName}/cs/rejectMail?em=${siteInactiveUser.email}" style="text-decoration:none; color:#717272; font-weight:bold;">그만 받기</a>를 누르세요.<br />
+									Copyright ⓒ by <a href="http://www.sunnyvale.co.kr" target="_blank" style="text-decoration:none; font-weight:bold; color:#717272;">Sunnyvale,</a> Inc. All right reserved														
+								</td>
+							</tr>
+						</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</td>
+</tr>
+</tbody>
+</table>	
+</body>
+		
+</html>

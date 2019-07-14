@@ -1,0 +1,144 @@
+<div class="ui-composer-out">
+	<form	rel="sync"
+			name="story-e-form-<%=id%>" 
+			method="post" 
+			action="/story/<%=id%>/modify" 
+			onsubmit="return Story.inlineModifySubmit( this, event );">
+		<div class="ui-mentions-input">
+			<div style="direction:ltr; text-align:left;" class="highlighter">
+				<div><span class="highlighter-content hidden-elem mentions-highlighter"></span></div>
+			</div>
+			<div style="height:auto;" class="composer-type-ahead">
+				<div class="wrap">
+					<div class="inner-wrap">
+						<textarea	class="input mentions-textarea" 
+									role="textbox"
+									aria-autocomplete="list"
+									autocomplete="off"
+									spellcheck="false"
+									aria-expanded="false"
+									aria-label=""
+									id="ta-message-text-edit-<%=id%>"></textarea>
+					</div>
+				</div>
+			</div>
+			<input name="text" autocomplete="off" class="mentions-hidden mentions-text" type="hidden" value="">
+		</div>
+	</form>
+	<div style="position:relative; height:0">
+		<div class="mention-select-box" style="display:none;">
+			<ul></ul>	
+		</div>
+	</div>
+	
+<%
+	var	count = medias.length;
+%>
+	<div class="composer-files" style="<%=( count > 0 ? 'display:block;' : '' )%>">
+		<div class="composer-file-tiles" id="composer-file-tiles-edit-<%=id%>">
+<%
+	for( var i = 0; i < count; i++ ) {
+		var
+		media = medias[ i ],
+		uploadId = "Up" + FileUploader.uploadIdCounter++;
+		
+		if( media.mediaType != 2 ) {  
+%>
+			<div class="file-grid-item upload-image-item" id="item-<%=uploadId%>-0">
+				<div class="ui-scaled-image-container">
+					<span class="uploaded-files file" data-up-file="<%=media.id%>">
+						<span><%=media.fileName%></span>
+					</span>
+				</div>
+				<label class="ui-button-opa" data-tooltip-alignh="left" aria-label="이 파일을 삭제합니다." data-hover="tooltip" for="">
+					<a href="#" class="ui-button-opa-a file-grid-item-remove-button">
+						<i class="fa fa-times fa-1g"></i>
+					</a>
+				</label>
+			</div>
+<%
+		} else if( media.mediaType == 2 ) {
+		
+			var dimension, classname, style;
+						
+			if( media.width > media.height ) {
+				className = "uploaded-files img";
+				dimension = "height=96px";
+				style="left:-" + ((((96*media.width)/media.height)-96)/2) + "px";
+			}else{
+				className = "uploaded-files img scaled-image-fit-width";
+				dimension = "width=96px";
+				style="top:-" + ((((96*media.height)/media.width)-96)/2 ) + "px";
+			}			
+%>		
+			<div class="file-grid-item upload-image-item" id="item-<%=uploadId%>-0">
+				<div class="ui-scaled-image-container">
+					<img class="<%=className%>"
+						 src="<%=media.thumbnail%>"
+						 style="<%=style%>"
+						 alt=""
+						 <%=dimension%>
+						 data-up-file="<%=media.id%>">
+				</div>
+				<label class="ui-button-opa" data-tooltip-alignh="left" aria-label="이 파일을 삭제합니다." data-hover="tooltip" for="">
+					<a href="#" class="ui-button-opa-a file-grid-item-remove-button">
+						<i class="fa fa-times fa-1g"></i>
+					</a>
+				</label>
+			</div>
+
+<%		
+		}
+	}
+%>		
+			<div class="file-grid-item next-set-item">
+				<div class="ui-scaled-image-container">
+					<a rel="ignore" role="button">
+						<div class="next-item-inner">
+							<form enctype="multipart/form-data" action="/upload" method="post">
+								<input type="file" name="file" onchange="FileUploader &amp;&amp; FileUploader.onFileSelected(this);" multiple="multiple" accept="*/*">
+								<input type="hidden" name="upid" value="">
+							</form>
+						</div>
+					</a>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+	
+	
+	
+	<div class="ui-composer-bottom">
+		<div class="composer-tool-button ico-btn composer-button-text-bold">
+			<a rel="ignore" role="button">
+				<i class="fa fa-bold fa-1g"></i>
+			</a>
+		</div>
+		<div class="composer-tool-button">
+			<div class="composer-tool-button">
+				<a rel="ignore" role="button" class="composer-tool-button-file">
+					<div class="composer-tool-button-inner">
+						<form enctype="multipart/form-data" action="/upload" method="post">
+							<input type="file" name="file" onchange="FileUploader &amp;&amp; FileUploader.onFileSelected(this);" multiple="multiple" accept="*/*">
+							<input type="hidden" name="upid" value="">
+						</form>
+					</div>
+				</a>
+			</div>
+		</div>
+		<ul class="ui-list">
+			<li>
+				<div class="ui-input-button">
+					<input type="button" class="hmo-button edit-cancel-button" value="취소" onclick="Story.endEdit(<%=id%>)">
+				</div>
+			</li>
+			<li>
+				<div class="ui-input-submit">
+					<input type="submit" class="hmo-button hmo-button-blue" value="수정완료" onclick="$(window[&quot;story-e-form-<%=id%>&quot;]).trigger(&quot;submit&quot;);">
+				</div>
+			</li>		
+		</ul>			
+	</div>	
+</div>

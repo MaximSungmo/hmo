@@ -1,0 +1,123 @@
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+
+.long-text-view
+{
+	/* Font */
+	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
+	font-size: 12px;
+
+	/* Text color */
+	color: #333;
+
+	/* Remove the background color to make it transparent */
+	background-color: #fff;
+
+	margin: 0;
+}
+
+
+
+.long-text-view blockquote
+{
+	font-style: italic;
+	font-family: Georgia, Times, "Times New Roman", serif;
+	padding: 2px 0;
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 0;
+}
+
+.long-text-view blockquote
+{
+	padding-left: 20px;
+	padding-right: 8px;
+	border-left-width: 5px;
+	
+	display: block;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 1em;
+-webkit-margin-start: 40px;
+-webkit-margin-end: 40px;
+	
+}
+
+
+.long-text-view p{
+
+display: block;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 1em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+
+}
+/*
+.long-text-view blockquote
+{
+	padding-left: 8px;
+	padding-right: 20px;
+	border-right-width: 5px;
+}
+*/
+
+.long-text-view a
+{
+	color: #0782C1;
+}
+
+.long-text-view ol, .long-text-view ul, .long-text-view dl
+{
+	/* IE7: reset rtl list margin. (#7334) */
+	*margin-right: 0px;
+	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
+	padding: 0 40px;
+}
+
+.long-text-view h1, .long-text-view h2,.long-text-view h3,.long-text-view h4,.long-text-view h5,.long-text-view h6
+{
+	font-weight: normal;
+	line-height: 1.2em;
+}
+
+.long-text-view hr
+{
+	border: 0px;
+	border-top: 1px solid #ccc;
+}
+
+.long-text-view img.right
+{
+	border: 1px solid #ccc;
+	float: right;
+	margin-left: 15px;
+	padding: 5px;
+}
+
+.long-text-view img.left
+{
+	border: 1px solid #ccc;
+	float: left;
+	margin-right: 15px;
+	padding: 5px;
+}
+
+/* #10868: We use :not() selector to exclude IE8, which crashes on img:hover style. */
+.long-text-view :not(.ie8) img:hover
+{
+	opacity: .9;
+	filter: alpha(opacity = 90);
+}
+
+.long-text-view pre
+{
+	white-space: pre-wrap; /* CSS 2.1 */
+	word-wrap: break-word; /* IE7 */
+}
+
+.long-text-view .marker
+{
+	background-color: Yellow;
+}

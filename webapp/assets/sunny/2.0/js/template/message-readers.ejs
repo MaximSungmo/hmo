@@ -1,0 +1,18 @@
+<div class="row-triple" style="height: 60px; margin-bottom:10px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+
+	<a href="/user/<%= user.id %>" class="triple-first">
+		<img src="<%= user.profilePic %>" class="popup-profile-pic">
+	</a>
+	<div class="triple-second" >
+		<div class="triple-cell">
+			<%//<%= lastReadMessageInfoId %>%>
+		</div>
+	</div>
+	<div class="triple-third">
+		<div class="triple-cell">
+			<div><a href="/user/<%= user.id %>"><%= user.name %></a>
+			</div>
+			<div><%= user.jobTitle1 %></div>
+		</div>
+	</div>
+</div>

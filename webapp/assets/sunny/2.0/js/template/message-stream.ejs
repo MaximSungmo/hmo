@@ -1,0 +1,97 @@
+<%
+	var
+	uc = Messenger.channel.usrs.length,
+	l = data.length;
+	
+	for( var i = 0; i < l; i++ ) {
+		var	info = data[ ( direction ? i :  l - ( i + 1 ) ) ].info;
+		if( info.type == 0 ) {
+			if( info.sender != null && info.sender.id == __a__.id ) {
+%>
+				<li class="web-messenger-message _me">
+					<div class="web-messenger-message-wrap z1">
+						<div class="_msg_box">
+							<div class="_bubble">
+								<%=(info.text == "") ? "&nbsp;" : $.escapeHTML(info.text).replace( /\r\n/gi, "<br>" ).replace( /\n/gi, "<br>" ) %>
+							</div>
+							<div class="_msg_stat z1">
+								<abbr data-timestamp="<%=info.createDate%>" class="timestamp livetimestamp">&nbsp;</abbr>
+								<% if( initLoad ) { %>
+									<%
+										if( info.unreadCount > 0 ) { 
+									%>
+										<span class="_readcnt" id="message-<%=info.id%>" data-count="<%=info.unreadCount %>"><%=info.unreadCount %></span>
+									<%
+										} 
+									%>
+								<% } else { %>
+									<span class="_readcnt" id="message-<%=info.id%>" data-count="<%=uc-1 %>"><%=uc-1 %></span>
+								<% } %>
+							</div>	
+						</div>
+					</div>
+				</li>
+<%
+			} else {
+%>			
+				<li class="web-messenger-message _ot">
+					<div class="web-messenger-message-wrap z1">
+						<div class="user-pic-wrap">
+							<a href="" class="_ulnk">
+								<img class="img" src="<%=info.sender.profilePic%>">
+							</a>
+						</div>
+						<div class="_msg_box">
+							<div class="_bubble">
+								<%=(info.text == "") ? "&nbsp;" : $.escapeHTML(info.text).replace( /\r\n/gi, "<br>" ).replace( /\n/gi, "<br>" ) %>
+							</div>
+							<div class="_msg_stat z1">
+								<abbr data-timestamp="<%=info.createDate%>" class="timestamp livetimestamp">&nbsp;</abbr>
+								<% if( initLoad ) { %>
+									<%
+										if( info.unreadCount > 0 ) { 
+									%>
+										<span class="_readcnt" id="message-<%=info.id%>" data-count="<%=info.unreadCount %>"><%=info.unreadCount %></span>
+									<%
+										} 
+									%>
+								<% } else { %>
+									<span class="_readcnt" id="message-<%=info.id%>" data-count="<%=uc-1 %>"><%=uc-1 %></span>
+								<% } %>
+							</div>	
+						</div>
+					</div>
+					<div class="chat-user-name"><%=info.sender.name%></div>
+				</li>
+<%
+			}
+			
+		} else if( info.type == 1 ) {
+			!initLoad && Messenger.refreshChannel(); 
+%>
+		<li class="_2n3">
+			<abbr data-utime="0" class="timestamp">
+				<%=info.subjectUser.name%>님이 <%=info.rawText%> 님을 초대했습니다
+			</abbr>
+		</li>
+<%
+		} else if( info.type == 2 ) {
+			!initLoad && Messenger.refreshChannel(); 
+%>
+		<li class="_2n3">
+			<abbr data-utime="0" class="timestamp">
+				<%=info.subjectUser.name%>님이 퇴장 하였습니다.
+			</abbr>
+		</li>
+<%
+		} else if( info.type == 3 ) {
+%>
+		<li class="_2n3">
+			<abbr data-utime="0" class="timestamp">
+				<%=info.subjectUser.name%>님이 <%=info.rawText%> 님과 채팅을 시작합니다.
+			</abbr>
+		</li>
+<%
+		}
+	}
+%>

@@ -1,0 +1,80 @@
+										<div class="z1">
+											<div class="l-ft">
+												<a href="//home/<%=user.basecampName%>?ref=hc-stream-cmnt-list" data-hovercard="" data-ft="{}"><img src="<%=user.profilePic %>" alt="" class="cmmnt-profile-pic blk img-32x32"></a>
+											</div>
+											<div>
+												<div class="image-block-content">
+													<% if( null != __a__ &&  ( __a__["is"]  && user.id == __a__["id"] ) ) { %>
+													<div class="ui-button-opa-block">	
+													<a  href="/reply/delete"
+														role="dialog" 
+														data-style="messagebox-yesno"
+														data-title="댓글 삭제"
+														data-message="삭제되면 복구할 수 없습니다.<br>이 댓글을 삭제하시겠습니까?"
+														rel="sync-get"
+														ajaxify-dialog-yes="FVReply.onAjaxReplyDelete"
+														data-request-map="{&quot;id&quot;:&quot;<%=id%>&quot;}"
+														class="ui-button-opa-a ui-comment-close-button">
+														<i class="fa fa-times fa-1g"></i></a>
+													</div>													
+													<% } %>
+													<div>
+														<div>
+															<div class="ui-comment-content">
+																<a href="//home/<%=user.basecampName%>?ref=hc-stream-cmnt-list" data-hovercard="" data-ft="{}" class="ui-comment-user-name"><%=user.name %></a>
+																<span><%=taggedTextPrev %><% if( taggedTextNext != null ){%><%=taggedTextNext%><% } %></span>
+															</div>
+															<div class="fsm fwn fcg ui-comment-actions">
+																<span>
+																	<span>&nbsp;</span>
+																	<a	href="#" class="ui-link-subtle">
+																		<abbr data-utime="" data-timestamp="<%=createDate%>" class="timestamp livetimestamp"  data-hover="tooltip" data-tooltip-alignh="left" aria-label=""></abbr>
+																	</a>
+																</span>
+																<span> · </span>
+																<% if(  null != __a__ && __a__["is"] ) { %>
+																	<span class="ui-reply-like-button ui-reply-like-button-<%=id %> <%=(feeledId == 1 ? 'mt-1-like':'mt-0-like')%>">
+																		<a	role="checkbox"
+																			aria-checked="<%=(feeledId == 1 ? 'true':'false')%>"
+																			class="ui-reply-like-icon"
+																			href="/feel/okay"
+																			rel="sync-get"
+																			ajaxify="FVReply.onAjaxFeelOkay"
+																			data-control-class="ui-reply-like-button-<%=id %>"
+																			data-request-map="{&quot;contentId&quot;:&quot;<%=id %>&quot;,&quot;feelId&quot;:&quot;1&quot; }"
+																			title="<%=(feeledId == 1 ? '좋아요 취소':'좋아요') %>">
+																			<i class="fa fa-heart-c fa-1g"></i>
+																		</a>
+																		<span> : </span>
+																		<a	role="dialog"
+																			aria-control="dialog-feel-users"
+																			ajaxify-dialog-init="DialogFeelUsers.onAjaxFeelUsers"
+																			class="ui-reply-feel-score"
+																			href="/feel/users"
+																			rel="sync-get"
+																			data-request-map="{&quot;contentId&quot;:<%=id %>,&quot;feeledId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+																			data-title="댓글 평가 사용자"
+																			data-close-fn="DialogFeelUsers.onClose"
+																			data-feel-score="<%=(dynamic?dynamic.feelScore:0)%>"><%=(dynamic?dynamic.feelScore:0)%>명</a>
+																	</span>
+																	<% } else { %>		
+																		<span class="ui-reply-like-button">
+																			<a	role="dialog"
+																				aria-control="dialog-feel-users"
+																				ajaxify-dialog-init="DialogFeelUsers.onAjaxFeelUsers"
+																				class="ui-reply-feel-score"
+																				href="/feel/users"
+																				rel="sync-get"
+																				data-request-map="{&quot;contentId&quot;:<%=id %>,&quot;feeledId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+																				data-title="댓글  평가 사용자"
+																				data-close-fn="DialogFeelUsers.onClose"
+																				data-feel-score="<%=(dynamic?dynamic.feelScore:0)%>"><%=(dynamic?dynamic.feelScore:0)%>명</a>
+																			</span>
+																	<% } %>		
+																	</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>

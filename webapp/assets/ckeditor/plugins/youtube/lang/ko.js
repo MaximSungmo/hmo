@@ -1,0 +1,21 @@
+CKEDITOR.plugins.setLang('youtube', 'ko', {
+	button : '유투브 비디오 넣기',
+	title : '유투브 비디오 넣기',
+	txtEmbed : '< embed ... > 와 같이 시작되는 코드를 넣어주세요',
+	txtUrl : '유투브 주소를 넣어주세요 예:)http://www.youtube.com/watch?v=ASDFSADF',
+	txtWidth : '너비(px)',
+	txtHeight : '높이(px)',
+	chkRelated : '비디오가 종료되면 추천 비디오들을 보여줍니다.',
+	txtStartAt : '시작 시간을 지정합니다 (ss or mm:ss or hh:mm:ss)',
+	chkPrivacy : '고급 권한 모드를 켭니다.',
+	chkOlderCode : '쫌 오래된 embed 코드를 사용합니다.',
+	noCode : 'Embed 태그나 유투브 주소를 넣어주셔야합니다.',
+	invalidEmbed : '해당 Embed 코드는 사용할 수 없습니다.',
+	invalidUrl : '넣어주신 유투브 URL 주소는 형식이 잘못되었거나 없는 주소입니다.',
+	or : '혹은',
+	noWidth : '너비를 넣어주세요',
+	invalidWidth : '제대로 된 형식으로 너비를 넣어주세요(예: 640)',
+	noHeight : '높이를 넣어주세요',
+	invalidHeight : '제대로 된 형식으로 높이를 넣어주세요(예: 360)',
+	invalidTime : '시간 형식이 잘못됐습니다. (예: 15 혹은 01:22:33)'
+});

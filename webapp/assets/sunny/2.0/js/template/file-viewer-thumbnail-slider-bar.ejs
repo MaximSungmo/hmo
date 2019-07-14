@@ -1,0 +1,63 @@
+<%
+	var mediaCount = mediaes.length;
+%>
+<div class="thumbnail-slider-bar-title">
+	<div class="position-and-count">
+		<%if( mediaCount > 1) {%>
+		<i><%=mediaCount%></i><span>개 중 </span><i id="disp-position"></i><span>번째 파일</span>
+		<% } %> 
+	</div>
+	<div class="bar-menu">
+		<a href="/story/<%=id%>">스토리 페이지로 보기</a>
+		<span> · </span>
+		<a href="<%=__g__.serverProtocol%>://<%=__g__.serverName%>:<%=__g__.serverPort%>/story/<%=id%>" onclick="FileViewer.copyURlToClipboard(this); return false;">스토리 URL 복사</a>
+	</div>	
+</div>
+<div id="thumbnail-slider-bar" class="thumbnail-slider-bar">
+	<div class="slider-scroll-wrap">
+		<div class="slider-scroll">
+		<%
+			if( mediaCount > 1 ) {
+				for( var i = 0; i < mediaCount; i++ ) {
+					var 
+					media = mediaes[i];
+					
+					if( media.mediaType != 2 ){
+				%>
+					<a class="thumbnail-item-link" href="#" id="media-viewer-thumbnail-<%=media.id%>" data-media-id="<%=media.id%>" data-media-type="<%=media.mediaType%>">
+						<div class="ui-scaled-image-container thumbnail-wrap file-type-support">
+							<img class="img thumbnail-media" alt="" src="/assets/sunny/2.0/img/file-icon.png">
+						</div>
+					</a>
+				<%					
+					} else if( media.mediaType == 2 ) {
+				 		var 	
+						imageSrc = media.largePath, 
+						imageDimension = 80,
+						classNameScaledImageFitWidth,
+						stylePosition;
+									
+						if( media.width >= media.height ) {
+							dimensionAttr = "heigth=" + imageDimension + "px";
+							classNameScaledImageFitWidth = "";
+							stylePosition = "left:-" + ( ( ( ( imageDimension * media.width ) / media.height ) - imageDimension ) / 2 ) + "px";
+						} else {
+							dimensionAttr = "width=" + imageDimension + "px";
+							classNameScaledImageFitWidth = "scaled-image-fit-width";
+							stylePosition = "top:-" + ( ( ( ( imageDimension * media.height) / media.width ) - imageDimension ) / 2 ) + "px";
+						}
+				%>
+					<a class="thumbnail-item-link" href="#" id="media-viewer-thumbnail-<%=media.id%>" data-media-id="<%=media.id%>" data-media-type="<%=media.mediaType%>">
+						<div class="ui-scaled-image-container thumbnail-wrap">
+							<img class="img thumbnail-media <%=classNameScaledImageFitWidth%>" <%=dimensionAttr%> style="<%=stylePosition%>" alt="" src="<%=imageSrc%>">
+						</div>
+					</a>
+		<%
+					}
+				}
+			}
+		%>	
+		</div>
+	</div>
+</div>
+

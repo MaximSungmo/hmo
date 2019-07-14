@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+	
+	<http pattern="\A/(u|assets|error)/.*\Z" request-matcher="regex" security="none" />
+	<http pattern="\A/(favicon.ico|googled02306225bbc8cdb.html)\Z" request-matcher="regex" security="none" />
+	<http pattern="\A/cs/(privacy|policies|location)\Z" request-matcher="regex" security="none" />
+
+	<!-- SS:begin -->	
+	<http 
+		security-context-repository-ref="securityContextRepository" 
+		auto-config="false" request-matcher="regex" 
+		entry-point-ref="authenticationEntryPoint" disable-url-rewriting="true">
+		
+		<anonymous enabled="true" />
+		
+		<intercept-url pattern="\A/\Z" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="\A/(unsupport|ping)\Z" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="\A/notification/get_new_one\Z" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="\A/user/(login|auth|find_password|sent_password|reset_password|error_reset_password|finish_reset_password|alter_password|valid|reactivate|finish_activate|error_activate|activate|sent_activate).*\Z" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="\A/a/(signup|activate|finish_activate|error_activate|reactivate|sent_activate|already_joined).*\Z" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="\A/(super|super/.*)\Z" access="ROLE_SUPER_ADMIN" />
+		<intercept-url pattern="\A/a/.*\Z" access="ROLE_ADMIN" />
+<!-- 		<intercept-url pattern="\A/.*/a/.*\Z" access="ROLE_ADMIN" /> -->
+		<intercept-url pattern="\A/site.*\Z" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="\A/.*\Z" access="ROLE_USER" />
+
+		
+<!-- 		<intercept-url pattern="\A/.*\Z" access="IS_AUTHENTICATED_ANONYMOUSLY" />		 -->
+
+<!-- 		<custom-filter ref="securityContextPersistenceFilter" position="SECURITY_CONTEXT_FILTER" /> -->
+		<custom-filter ref="usernamePasswordProcessingFilter" position="FORM_LOGIN_FILTER"  />
+		<custom-filter ref="logoutFilter" position="LOGOUT_FILTER" />
+		<custom-filter ref="basicAuthenticationFilter" position="BASIC_AUTH_FILTER" />
+		<custom-filter ref="rememberMeAuthenticationFilter" position="REMEMBER_ME_FILTER" />
+		
+		<access-denied-handler ref="accessDeniedHandler" />		
+	</http>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="daoAuthenticationProvider"/>
+		<authentication-provider ref="rememberMeAuthenticationProvider"/>
+		<authentication-provider user-service-ref="customUserDetailsService">
+			<password-encoder ref="passwordEncoder">										
+				<salt-source ref="saltSource"/>												
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+    <!-- SS:end -->
+	
+	<beans:bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+		<beans:property name="errorPage" value="/WEB-INF/views/error/access_denied.jsp" />
+	</beans:bean>
+
+	
+	<beans:bean id="usernamePasswordProcessingFilter" class="kr.co.sunnyvale.sunny.security.SunnyUsernamePasswordAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="rememberMeServices" ref="rememberMeServices" />
+		<beans:property name="authenticationSuccessHandler" ref="loginSuccessHandler" />
+		<beans:property name="authenticationFailureHandler" ref="loginFailureHandler" />
+		<beans:property name="authenticationDetailsSource" ref="customWebuthenticationDetailsSource" />
+		<beans:property name="usernameParameter" value="username" />
+		<beans:property name="passwordParameter" value="password" />
+		<beans:property name="filterProcessesUrls">
+			<beans:list value-type="java.lang.String">
+				<beans:value>/user/auth</beans:value>
+			</beans:list>
+        </beans:property>		
+	</beans:bean>	
+
+	<beans:bean id="loginSuccessHandler" class="kr.co.sunnyvale.sunny.security.CustomUrlAuthenticationSuccessHandler" />
+	<!--beans:bean id="loginSuccessHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler"-->
+	<!-- 
+	<beans:bean id="loginSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/" />
+		<beans:property name="alwaysUseDefaultTargetUrl">
+			<beans:value>true</beans:value>
+		</beans:property>		
+	</beans:bean>
+	 -->
+	<!-- /yacamp/user/login 과 같이 사이트마다 따로 주소를 주기위해서 커스텀 등록 -->
+	<beans:bean id="loginFailureHandler" class="kr.co.sunnyvale.sunny.security.CustomUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/user/login" />
+		<beans:property name="useForward" value="true" />
+	</beans:bean>
+
+	<beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<beans:constructor-arg>
+			<beans:ref bean="logoutSuccessHandler"/>
+		</beans:constructor-arg>
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:ref bean="rememberMeServices" />
+ 				<beans:bean id="logoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler">
+ 					<beans:property name="invalidateHttpSession" value="true" />
+ 				</beans:bean>
+			</beans:list>
+		</beans:constructor-arg>
+		<!--beans:property name="cookieName" value="${redwwod.SSO.Cookie.Name}" /-->
+		<beans:property name="filterProcessesUrl" value="/user/logout" />
+	</beans:bean>
+	
+	<beans:bean id="logoutSuccessHandler" class="kr.co.sunnyvale.sunny.security.CustomUrlLogoutSuccessHandler">
+	    <beans:property name="defaultTargetUrl" value="/" />
+    	<beans:property name="alwaysUseDefaultTargetUrl" value="true" />
+	</beans:bean>
+
+	<beans:bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		<beans:property name="authenticationDetailsSource" ref="customWebuthenticationDetailsSource"/>
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="authenticationEntryPoint" ref="authenticationEntryPoint" />
+    </beans:bean>
+
+	<beans:bean id="customWebuthenticationDetailsSource" class="kr.co.sunnyvale.sunny.security.SunnyWebAuthenticationDetailsSource">
+		<beans:property name="clazz" value="kr.co.sunnyvale.sunny.security.WebAuthenticationDetailsEx"/>
+	</beans:bean>
+	
+	  
+    <beans:bean id="authenticationEntryPoint" class="kr.co.sunnyvale.sunny.security.SunnyLoginUrlAuthenticationEntryPoint">    
+        <beans:constructor-arg>
+			<beans:value>/user/auth</beans:value>
+		</beans:constructor-arg>
+    </beans:bean>
+
+
+	<beans:bean id="rememberMeAuthenticationFilter" class="kr.co.sunnyvale.sunny.security.SunnyRememberMeAuthenticationFilter"> 
+		<beans:property name="rememberMeServices" ref="rememberMeServices"/>
+		<beans:property name="authenticationManager" ref="authenticationManager"/>
+    </beans:bean>
+    
+	<beans:bean id="rememberMeServices" class="kr.co.sunnyvale.sunny.security.SunnyTokenBasedRememberMeServices">
+	    <beans:property name="key" value="sunny" />
+    	<beans:property name="userDetailsService" ref="customUserDetailsService"/>
+    	<beans:property name="parameter" value="_sunny_remember_me"/>
+    	<beans:property name="cookieName" value="SUNNY_REMEMBER_ME"/>
+    	<beans:property name="useSecureCookie" value="true"/>
+	</beans:bean>
+	
+	
+<!-- 	<beans:bean id="rememberMeServices" -->
+<!--             class="kr.co.sunnyvale.sunny.security.SunnyTokenBasedRememberMeServices"> -->
+<!-- 	    <beans:constructor-arg value="sunny"/> -->
+<!-- 	    <beans:constructor-arg ref="customUserDetailsService"/> -->
+	
+<!-- 		<beans:property name="parameter" value="_sunny_remember_me"/> -->
+<!-- 		<beans:property name="cookieName" value="SUNNY_REMEMBER_ME"/> -->
+<!-- 	    <beans:property name="alwaysRemember" value="true"/> -->
+<!-- 	    <beans:property name="tokenValiditySeconds" value="60" /> -->
+<!-- 	</beans:bean> -->
+	
+
+	<beans:bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		<beans:property name="key" value="sunny"/>
+	</beans:bean>	
+
+	<beans:bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<beans:property name="passwordEncoder" ref="passwordEncoder" />
+		<beans:property name="saltSource" ref="saltSource" />
+		<beans:property name="userDetailsService" ref="customUserDetailsService" />
+	</beans:bean>
+
+	<beans:bean id="securityContextRepository" class="kr.co.sunnyvale.sunny.security.CustomHttpSessionSecurityContextRepository">
+<!-- 	    <beans:property name='securityContextRepository'> -->
+<!-- 	        <beans:bean class=''> -->
+<!-- 	            <beans:property name='allowSessionCreation' value='false' /> -->
+<!-- 	        </beans:bean> -->
+<!-- 	    </beans:property> -->
+	</beans:bean>
+	<beans:bean id="customUserDetailsService" class="kr.co.sunnyvale.sunny.security.UserDetailsServiceImpl"/>
+	
+	<beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
+	<beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<beans:property name="userPropertyToUse" value="salt"/>
+	</beans:bean>
+
+	<beans:bean id="expressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
+	<beans:bean id="textEncryptor" class="org.springframework.security.crypto.encrypt.Encryptors" factory-method="noOpText" />
+	
+	
+</beans:beans>

@@ -1,0 +1,154 @@
+												<div class="z1">
+													<div class="cmnt-profile-box">
+														<a	href="/user/<%=user.id %>"
+															data-hovercard="">
+															<img src="<%=user.profilePic %>" alt="" class="cmmnt-profile-pic"></a>
+													</div>
+													<div>
+														<div class="image-block-content">
+															<% if( null != __a__ &&  ( __a__["is"]  && user.id == __a__["id"] ) ) { %>
+																<div class="ui-button-opa-block">	
+																	<a	href="/reply/delete"
+																		role="dialog"
+																		data-style="messagebox-yesno"
+																		data-title="댓글 삭제"
+																		data-message="삭제되면 복구할 수 없습니다.<br>이 댓글을 삭제하시겠습니까?"
+																		ajaxify-dialog-yes="Reply.onAjaxReplyDelete" 
+																		rel="sync-get"
+																		data-request-map="{&quot;id&quot;:&quot;<%=id %>&quot;}"
+																		class="ui-button-opa-a  ui-comment-close-button">
+																	<i class="fa fa-times fa-1g"></i>
+																	</a>
+																</div>	
+															<% } %>
+															<div>
+																<div>
+																	<div class="ui-comment-content">
+																		<a href="/user/<%=user.id %>"	data-hovercard="" class="ui-comment-user-name"><%=user.name %></a>
+																		<% if( null != taggedTextNext ){ %>
+																				<div id="reply-exposed-<%=id %>">
+																					<div><%=taggedTextPrev %></div>
+																					<span class="text-exposed-hide">...</span>
+																					<span class="text-exposed-show"><%=taggedTextNext %><br/><br/></span>
+																					<span class="text-exposed-hide">
+																						<span class="text-exposed-link">
+																							<a href="#" onclick="css_add_class($(&quot;#reply-exposed-<%=id %>&quot;), &quot;text-exposed&quot;); return false;">더보기</a>
+																						</span>
+																					</span>
+																				</div>
+																		 <% } else { %> 	
+																				<span><%=taggedTextPrev %></span>
+																		 <% } %>																	
+																	</div>
+																	<%
+																		if( mediaCount == 1 ) {
+																			if( mediaType != 2 ) {
+																	%>
+																				<div class="ui-media-thumb">
+																					<a href="/download/<%=mediaId %>/<%=fileName %>">
+																						<span class="file">
+																							<span><%=fileName %></span>
+																						</span>
+																					</a>	
+																				</div>
+																	<%
+																			} else if( mediaType == 2 ) {
+																			
+																				var cmntPhotoPath = hugePath;
+																				if( width < height ) {
+																					var
+																					cmntPhotoHeight = height > 210 ? 210 : Height,
+																					cmntPhotoWidth =  cmntPhotoHeight * width / height;	
+																	%>
+																					<div class="ui-media-thumb">
+																						<div>
+																							<div class="ui-scaled-image-container" style="width:<%=cmntPhotoWidth %>px; height:<%=cmntPhotoHeight %>px;">
+																								<a class="reply-photo-thumb"
+																								   data-src-o="<%=originalPath %>"
+																								   href="#"
+																								   onclick="Reply.openPhotoFullScreen( this ); return false;">
+																									<img class="img" 
+																								 		 src="<%=cmntPhotoPath %>"
+																								 		 alt=""
+																								 		 width="<%=cmntPhotoWidth %>" height="<%=cmntPhotoHeight %>">
+																								</a>	 
+																							</div>
+																						</div>
+																					</div>		
+																	<%
+																				} else {
+																					var
+																					cmntPhotoWidth = width > 220 ? 220 : width,
+																					cmntPhotoHeight = cmntPhotoWidth * height / width;
+																	%>
+																					<div class="ui-media-thumb">
+																						<div>																				
+																							<div class="_46-h" style="width:<%=cmntPhotoWidth %>px; height:<%=cmntPhotoHeight %>px;">
+																								<a class="reply-photo-thumb"
+																								   data-src-o="<%=originalPath %>"
+																								   href="#"
+																								   onclick="Reply.openPhotoFullScreen( this ); return false;">																							
+																									<img class="_46-i img" 
+																							 			 src="<%=cmntPhotoPath %>"
+																										 style="left:0px; top:0px;" alt="" width="<%=cmntPhotoWidth %>" height="<%=cmntPhotoHeight %>">
+																								</a>		 
+																							</div>
+																						</div>
+																					</div>																				
+																	<%
+																				}
+																			}
+																		}
+																	%>																	
+																	<div class="ui-comment-actions">
+																		<span>
+																			<a	href="#" class="ui-link-subtle">
+																				<abbr data-utime="" data-timestamp="<%=createDate%>" class="timestamp livetimestamp"  data-hover="tooltip" data-tooltip-alignh="left" aria-label=""></abbr>
+																			</a>
+																		</span>
+																		<span> · </span>
+																		<% if(  null != __a__ && __a__["is"] ) { %>
+																			<span class="ui-reply-like-button ui-reply-like-button-<%=id %> <%=(feeledId == 1 ? 'mt-1-like':'mt-0-like')%>">
+																				<a	role="checkbox"
+																					aria-checked="<%=(feeledId == 1 ? 'true':'false')%>"
+																					class="ui-reply-like-icon"
+																					href="/feel/okay"
+																					rel="sync-get"
+																					ajaxify="Reply.onAjaxFeelOkay"
+																					data-control-class="ui-reply-like-button-<%=id %>"
+																					data-request-map="{&quot;contentId&quot;:&quot;<%=id %>&quot;,&quot;feelId&quot;:&quot;1&quot; }"
+																					title="<%=(feeledId == 1 ? '좋아요 취소':'좋아요') %>">
+																					<i class="fa fa-heart-c fa-1g"></i>
+																					</a>
+																					<span> : </span>
+																					<a	role="dialog"
+																						aria-control="dialog-feel-users"
+																						ajaxify-dialog-init="DialogFeelUsers.onAjaxFeelUsers"
+																						class="ui-reply-feel-score"
+																						href="/feel/users"
+																						rel="sync-get"
+																						data-request-map="{&quot;contentId&quot;:<%=id %>,&quot;feeledId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+																						data-title="댓글 평가 사용자"
+																						data-close-fn="DialogFeelUsers.onClose"
+																						data-feel-score="<%=(dynamic?dynamic.feelScore:0)%>"><%=(dynamic?dynamic.feelScore:0)%>명</a>
+																				</span>
+																		<% } else { %>		
+																				<span class="ui-reply-like-button">
+																					<a	role="dialog"
+																						aria-control="dialog-feel-users"
+																						ajaxify-dialog-init="DialogFeelUsers.onAjaxFeelUsers"
+																						class="ui-reply-feel-score"
+																						href="/feel/users"
+																						rel="sync-get"
+																						data-request-map="{&quot;contentId&quot;:<%=id %>,&quot;feeledId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+																						data-title="댓글  평가 사용자"
+																						data-close-fn="DialogFeelUsers.onClose"
+																						data-feel-score="<%=(dynamic?dynamic.feelScore:0)%>"><%=(dynamic?dynamic.feelScore:0)%>명</a>
+																				</span>
+																		<% } %>		
+																	</div>
+																</div>
+															</div>		
+														</div>
+													</div>	
+												</div>

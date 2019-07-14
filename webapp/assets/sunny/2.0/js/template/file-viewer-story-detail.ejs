@@ -1,0 +1,322 @@
+<div class="ui-selector-menu-wrapper ui-toggle-flyout"
+ 	 data-popup-group="global"
+ 	 data-popup-trigger="perm-sv-story-selector-<%=id%>"
+ 	 data-fn-popuphide="on_selector_popup_menu_hide(&quot;perm-sv-story-selector-<%=id%>&quot;)"
+ 	 data-fn-popupshow="on_selector_popup_menu_show(&quot;perm-sv-story-selector-<%=id%>&quot;)"
+	 id="perm-sv-story-selector-popup-menus-<%=id%>">
+	<div role="menu" class="ui-menu ui-selector-menu">
+		<ul class="ui-menu-inner">
+			<li class="ui-menu-item">
+				<a  class="item-anchor item-with-icon"
+					role="menuitem" 
+					href="/story/permission" 
+					rel="sync-get"
+					data-request-map="{&quot;id&quot;:<%=id%>,&quot;perm&quot;:0}"
+					ajaxify="ajax_story_perm_change">
+					<i class="mrs item-icon img icon-private icon-p-public"></i>
+					<span class="item-label fsm">전체공개</span>
+				</a>
+			</li>
+			<li class="ui-menu-item">
+				<a  class="item-anchor item-with-icon" 
+					role="menuitem" 
+					href="/story/permission" 
+					rel="sync-get"
+					data-request-map="{&quot;id&quot;:<%=id%>,&quot;perm&quot;:1}"
+					ajaxify="ajax_story_perm_change">
+					<i class="mrs item-icon img icon-private icon-p-friend"></i>
+					<span class="item-label fsm">친구공개</span>
+				</a>
+			</li>
+			<li class="ui-menu-item">
+				<a  class="item-anchor item-with-icon" 
+					role="menuitem" 
+					href="/story/permission" 
+					rel="sync-get"
+					data-request-map="{&quot;id&quot;:<%=id%>,&quot;perm&quot;:2}"
+					ajaxify="ajax_story_perm_change">
+					<i class="mrs item-icon img icon-private icon-p-me"></i>
+					<span class="item-label fsm">나만 보기</span>
+				</a>
+			</li>
+		</ul>
+	</div>						 	
+</div>
+<div class="detail-content-body" style="padding-bottom:40px;">
+		<div class="ui-scrollable-area detail-scroller uiScrollableAreaWithShadow contentAfter">
+			<div id="u-10-01" class="ui-scrollable-area-wrap _scrollable" tabindex="0" aria-label="scrollable region">
+				<div class="ui-scrollable-area-body">
+					<div id="story-detail" class="ui-scrollable-area-content">
+						<div class="z1 photos-viewer-user-info">
+							<div id="photos-viewer-user-pic" class="l-ft">
+								<a href="/">
+									<img class="_s0 _rw img" alt="" src="<%=userProfilePic%>">
+								</a>
+							</div>					
+							<div class="ui-action-links-bottom">
+								<div id="photo-owner-name" class="photo-owner-name">
+									<a href="/user/<%=userId%>?hc_location=photos-viewer"><%=userName%></a>
+								</div>
+								<div class="mrs fsm fwn fcg">
+									<span class="story-timestamp ui-stream-source">
+										<a href="#"><abbr class="timestamp livetimestamp" data-hover="tooltip" data-timestamp="<%=createDate%>" data-tooltip-alignh="left" aria-label=""></abbr></a>
+									</span>
+								</div>
+							</div>					
+						</div>	
+						<span class="story-message ui-stream-message" tabindex="0">
+							<span class="has-message message-body">
+								<% if ( taggedTextNext != null ){ %>
+								<div id="photos-viewer-smessage-exposed-<%=id%>">
+									<span class="user-content">
+										<%=taggedTextPrev%>
+										<span class="text-exposed-hide"><br>...</span>
+										<span class="text-exposed-show"><%=taggedTextNext%></span>
+										<span class="text-exposed-hide"><span class="text-exposed-link"><a href="#" onclick="FileViewer.css_add_class($(&quot;#photos-viewer-smessage-exposed-<%=id%>&quot;), &quot;text-exposed&quot;); return false;">더 보기</a></span></span>
+									</span>	
+								</div>						
+								<% } else { %>
+								<span class="message-body-wrap"><span class="user-content"><%=taggedTextPrev%> <%=taggedTextNext%></span></span>
+								<% } %>
+							</span>
+						</span>
+						<span class="ui-stream-footer">
+							<span class="ui-action-links-bottom react-icons-<%=id%>">
+								<% if( null != __a__  && __a__["is"] ){ %>
+								<span class="story-react">
+									<a	href="/feel/okay"
+										role="radio"
+										class="feel-radio-react-del-<%=id %>"
+										data-ft-class="feel-radio-react-del-<%=id %>"
+										ajaxify="Story.onAjaxFeel"
+										aria-checked="<%if(feeledId == 1){%>true<%}else{%>false<%}%>"
+										aria-controls="feel-counter-<%=id %>"
+										rel="sync-get"
+										data-ft="<%=id %>"
+										data-request-map="{&quot;contentId&quot;:&quot;<%=id %>&quot;,&quot;feelId&quot;:&quot;1&quot;}">
+										<span class="react-icon emo-grin <%if(feeledId == 1){%>reacted<%}%>"></span>
+									좋아요 <span class="react-icon <%if(feeledId == 1){%>reacted<%}%>">취소</span></a>
+								</span>
+								<span class="story-stream-dott desktop-viewer-story-stream-dott"> · </span>
+								<a	class="h-icon"
+									href="#"
+									role="dialog"
+									aria-control="dialog-bookmark"
+									data-title="스크랩"
+									data-custom-nm="등록"
+									data-custom-fn="DialogBookmark.onRegisterClicked"
+									data-cid="<%= id %>">
+									<i class="story-stream-bookmark-icon"></i>
+									<span class="menu-text story-stream-bookmark-text desktop-viewer-story-stream-bookmark-text">스크랩</span>
+								</a>
+								
+								<% } %>
+							</span>
+						</span>
+						<div>
+							<div id="photoviewer-react-container" class="ui-react-container">
+								<ul>
+									<li class="ui-react-row react-row-count cmnt-row-wrap" <%if(feelCount<= 0){%>style="display:none"<%}%>>
+										<div class="z1">
+											<div class="l-ft">
+												<span class="blk"><i class="ui-react-noti-icon react-noti-eval-icon"></i></span>
+											</div>
+											<div>
+												<div class="image-block-content n-scroll story-react-noti">
+													<span>
+														<a	class="feel-counter-<%=id%>"
+															role="dialog"
+															aria-control="dialog-feel-users"
+															ajaxify-dialog-init="DialogFeelUsers.onAjaxFeelUsers"
+															rel="sync-get"
+															href="/feel/users"
+															data-request-map="{&quot;contentId&quot;:<%=id%>,&quot;evaluateId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}"
+															data-title="스토리 평가 사용자"
+															data-close-fn="DialogFeelUsers.onClose"															 
+															data-count="<%=(feelCount < 0 ? 0 : feelCount)%>">
+															<i class="fa fa-heart fa-1g"></i>
+															<span class="count-text"><%=(feelCount<0?0:feelCount)%>명</span>
+														</a>
+														<span>이 평가했습니다.</span>
+													</span>
+												</div>
+											</div>
+										</div>
+									</li>
+							
+									<%
+										if( replyCount > 3 ) {
+											var requestReplyCount = 10,
+												remainReplyCount = replyCount-3;
+									%> 									
+									<li class="ui-react-row cmnt-count-row">
+										<div class="z1">
+											<div class="l-ft">
+												<span class="blk"><i class="ui-react-noti-icon react-noti-cmnt-icon"></i></span>
+											</div>
+											<div>
+												<div class="image-block-content n-scroll story-react-noti">
+													<span>
+														<a	rel="async-get"
+															href="/reply/stream"
+															ajaxify="FVReply.onReplyStream"
+															ajaxify-before="FVReply.onReplyStreamBefore"
+															data-reply-count="<%=remainReplyCount %>"
+															data-request-map="{ &quot;top&quot;:true, &quot;contentId&quot;:<%=id %>,&quot;replyId&quot;:<%=replys[0].id %>,&quot;size&quot;:<%=requestReplyCount %> }">
+															<i class="fa fa-comment fa-1g"></i>
+															<i class="fa fa-spin fa-1g fa-spinner" style="display:none"></i>
+															<span>
+																<% if( remainReplyCount > requestReplyCount ) { %>
+																지난 댓글 더 보기
+																<% } else { %>
+																댓글 <%=remainReplyCount %>개 더 보기 
+																<% } %>
+															</span>
+														</a>
+													</span>
+												</div>
+											</div>
+										</div>
+									</li>
+									<%
+										}
+									%>	
+									<%
+										var commentCount = replys.length; 
+										for(var i=0; i < commentCount; i++) {
+											var comment = replys[i];
+									%>	
+									<li class="ui-react-row <%if(i+1 == commentCount){%>_lf<%}%>">
+										<div class="z1">
+											<div class="l-ft">
+												<a href="/user/<%=comment.user.id%>?ref=hc-stream-cmnt-list"><img class="cmmnt-profile-pic blk img-32x32" src="<%=comment.user.profilePic %>" alt=""></a>
+											</div>
+											<div>
+												<div class="image-block-content">
+													<% if( null != __a__ &&  ( __a__["is"]  && comment.user.id == __a__["id"] ) ) { %>
+													<div class="ui-button-opa-block">	
+														<a  href="/reply/delete"
+															role="dialog" 
+															data-style="messagebox-yesno"
+															data-title="댓글 삭제"
+															data-message="삭제되면 복구할 수 없습니다.<br>이 댓글을 삭제하시겠습니까?"
+															rel="sync-get"
+															ajaxify-dialog-yes="FVReply.onAjaxReplyDelete"
+															data-request-map="{&quot;id&quot;:&quot;<%=comment.id%>&quot;}"
+															class="ui-button-opa-a ui-comment-close-button">
+															<i class="fa fa-times fa-1g"></i></a>
+													</div>	
+													<% } %>	
+													<div>
+														<div>
+															<div class="ui-comment-content">
+																<a href="/home/<%=comment.user.basecampName%>?ref=hc-stream-cmnt-list" data-hovercard="" class="ui-comment-user-name"><%=comment.user.name %></a>
+																<span><%=comment.taggedTextPrev %><% if( comment.taggedTextNext != null ){%><%=comment.taggedTextNext%><% } %></span>
+															</div>
+															<div class="fsm fwn fcg ui-comment-actions">
+																<span>
+																	<span>&nbsp;</span>
+																	<a href="#" data-ft="{}" class="ui-link-subtle"><abbr title="" data-utime="" data-timestamp="<%=comment.createDate%>" class="timestamp livetimestamp"></abbr></a>
+																</span>
+																<span> · </span>
+																<% if( null != __a__ && __a__["is"] ){ %>
+																<span class="ui-reply-like-button ui-reply-like-button-<%=comment.id%> <%=(comment.feeledId == 1 ? 'mt-1-like':'mt-0-like')%>">
+																	<a	href="/feel/okay"
+																		rel="sync-get"
+																		ajaxify="FVReply.onAjaxFeelOkay"
+																		class="ui-reply-like-icon"
+																		data-control-class="ui-reply-like-button-<%=comment.id%>"
+																		role="checkbox"
+																		aria-checked="<%if(comment.feeledId == 1){%>true<%}else{%>false<%}%>"
+																		data-request-map="{&quot;contentId&quot;:&quot;<%=comment.id %>&quot;,&quot;feelId&quot;:&quot;1&quot; }"
+																		title="<%if(comment.feeledId == 1){%>좋아요 취소<%}else{%>좋아요<%}%>">
+																		<i class="fa fa-heart-c fa-1g"></i>
+																	</a>
+																	<span> : </span>
+																	<a	class="pop-feeled-users ui-reply-feel-score"
+																		rel="sync-get"
+																		href="/feel/users"
+																		data-request-map="{&quot;contentId&quot;:<%=comment.id %>,&quot;feeledId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}" 
+																		data-feel-score="<%=comment.dynamic.feelScore%>"><%=comment.dynamic.feelScore%>명</a>
+																</span>
+																<% } else { %> 	
+																<span class="ui-comment-like-button">
+																	<i class="ui-comment-like-icon"></i>
+																	<span> : </span>
+																	<a	class="ui-comment-eval-score" 
+																		rel="sync-get" 
+																		href="/evaluate/names"
+																		ajaxify="ajax_evaluate_names"
+																		data-request-map="{&quot;contentId&quot;:<%=comment.id%>,&quot;evaluateId&quot;:null,&quot;top&quot;:true,&quot;size&quot;:20}" 
+																		data-hover="tooltip"
+																		data-tooltip-alignh="center"
+																		data-fn-hovercard-show="hovercard_evaluate_names_show()"
+																		data-fn-hovercard-hide="hovercard_evaluate_names_hide()"
+																		data-eval-score="<%=comment.dynamic.evaluateScore%>"><%=comment.dynamic.evaluateScore%>명</a>
+																</span>
+																<% } %>	
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									<% } %>															
+								</ul>
+							</div>
+						</div>						
+					</div>
+				</div>										
+			</div>
+			<div class="ui-scrollable-area-track invisible-elem" style="opacity: 0;">
+				<div class="ui-scrollable-area-gripper"></div>
+			</div>
+		</div>
+		<% if( null != __a__  && __a__["is"] ){ %>
+			<div id="story-feedback-input" class="story-feedback-input ui-react-container">
+				<ul>
+					<li class="ui-react-row ui-add-comment">
+						<div class="z1 ui-mentions-input-wrap">
+							<div class="l-ft">
+								<div>
+									<%if(__a__.profilePic == null){%>
+										<img src="/assets/desktop/img/icon/default-profile-80x80.png" class="cmmnt-profile-pic blk img-32x32">
+									<%}else{%>
+										<img src="<%=__a__.profilePic%>" class="cmmnt-profile-pic blk img-32x32">
+									<%}%>	
+								</div>
+							</div>
+							<div class="block-content-input">
+								<div class="ui-composer-out" id="ui-composer-out-fv">
+									<form	rel="async"
+											name="photoview-cmmnt-form" 
+											action="/reply/post"
+											method="post"
+											onsubmit="return false;">
+										<div class="ui-mentions-input">
+											<div class="highlighter">
+												<div><span class="highlighter-content hidden-elem mentions-highlighter"></span></div>
+											</div>										
+											<div class="ui-type-head mentions-type-head">
+												<div class="inner-wrap">
+													<textarea title="댓글달기"
+															  placeholder="댓글달기" 
+														  	  autocomplete="off"
+													  		  spellcheck="false"  
+													  		  class="text-input mentions-textarea ui-textarea-auto-grow ui-textarea-no-resize ui-add-comment-input-fv dom-control-placeholder"
+													  		  id="photoviewer-add-comment-text"></textarea>
+												</div>
+											</div>
+											<input name="contentId" value="<%=id%>" type="hidden">
+											<input name="text" autocomplete="off" class="mentions-hidden mentions-text" type="hidden" value="">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>					
+		<%}%>
+</div>
